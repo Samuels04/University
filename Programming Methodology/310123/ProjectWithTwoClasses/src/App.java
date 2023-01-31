@@ -1,7 +1,7 @@
 import es.employee.*;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         BasePlusCommissionEmployee employeeBP = new BasePlusCommissionEmployee("Bob", "Lewis", "333-33-3333", 5000, .04,
                 500);
         CommissionEmployee employee = new CommissionEmployee("Sue", "Jones", "222-22-2222", 10000, .06);
@@ -18,6 +18,14 @@ public class App {
                 new BasePlusCommissionEmployee("Ron", "Weasley", "314-15-9265", 5250, 0.04, 502),
                 new BasePlusCommissionEmployee("Severus", "Snape", "555-55-5555", 5555, .05, 555)
         };
+        //First we print the unsorted arrays
+        printArray(employeeVector);
+        printArray(employeeBPVector);
+
+        //Then we print the sorted arrays
+        printArray(sort(employeeVector));
+        printArray(sort(employeeBPVector));
+
     }
 
     public static CommissionEmployee[] sort(CommissionEmployee[] array) {
@@ -35,5 +43,33 @@ public class App {
             }
         }
         return array;
+    }
+    public static BasePlusCommissionEmployee[] sort(BasePlusCommissionEmployee[] array) {
+        BasePlusCommissionEmployee aux = null;
+        boolean swapped = true;
+        while (swapped) {
+            swapped = false;
+            for (int i = 0; i < array.length - 1; i++) {
+                if (array[i].earnings() > array[i + 1].earnings()) {
+                    aux = array[i];
+                    array[i] = array[i + 1];
+                    array[i + 1] = aux;
+                    swapped = true;
+                }
+            }
+        }
+        return array;
+    }
+    public static void printArray(CommissionEmployee[] array){
+        System.out.println("Commission employees: ");
+        for(CommissionEmployee i : array){
+            System.out.println("\t" + i);
+        }
+    }
+    public static void printArray(BasePlusCommissionEmployee[] array){
+        System.out.println("Base-Salaried Commission employees: ");
+        for(BasePlusCommissionEmployee i : array){
+            System.out.println("\t" + i);
+        }
     }
 }
