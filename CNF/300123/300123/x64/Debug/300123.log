@@ -1,0 +1,3 @@
+﻿  Example2.cpp
+Example2.obj : error LNK2005: ya se definió main en Example.obj
+C:\Users\uo293747\Desktop\300123\x64\Debug\300123.exe : fatal error LNK1169: se encontraron uno o más símbolos definidos simultáneamente
