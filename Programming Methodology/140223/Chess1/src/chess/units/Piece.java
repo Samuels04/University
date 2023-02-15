@@ -72,6 +72,4 @@ public abstract class Piece {
 
 	protected abstract char toChar();
 
-	// TODO Implement classes Rook and Bishop inheriting from Piece
-
 }

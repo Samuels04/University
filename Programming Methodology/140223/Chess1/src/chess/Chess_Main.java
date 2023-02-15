@@ -127,3 +127,5 @@ public class Chess_Main {
 	}
 
 }
+
+//TODO Implement in this class usage of pieces rook and bishop 
