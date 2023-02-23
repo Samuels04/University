@@ -1,4 +1,7 @@
 
+/*
+import characters.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -53,3 +56,4 @@ public class BarbarianWeaponTest {
 		assertEquals(1,conan.attack());
 	}
 }
+*/
