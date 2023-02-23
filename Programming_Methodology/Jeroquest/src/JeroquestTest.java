@@ -160,8 +160,7 @@ public class JeroquestTest {
 
 		System.out.println("Barbarians ordered from highest to lowest Body value: ");
 		for (Barbarian i : vectorBarbarians)
-			;
-		System.out.println(i);
+			System.out.println(i);
 		sc.close();
 	}
 
@@ -190,12 +189,12 @@ public class JeroquestTest {
 	}
 
 	public static Barbarian getHighestBody(Barbarian[] vector) {
-		BubbleSort(vector);
+		BubbleSortLtH(vector);
 		return vector[vector.length - 1];
 	}
 
 	public static Mummy getHighestBody(Mummy[] vector) {
-		BubbleSort(vector);
+		BubbleSortLtH(vector);
 		return vector[vector.length - 1];
 	}
 
