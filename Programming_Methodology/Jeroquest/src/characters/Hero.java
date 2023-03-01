@@ -16,7 +16,7 @@ public class Hero extends Character {
 	 */
 	public Hero(String nameOfTheHero, String nameOfThePlayer, int itsMovement, int itsAttack, int itsDefence,
 			int itsBody) {
-		super(nameOfThePlayer, itsMovement, itsAttack, itsDefence, itsBody);
+		super(nameOfTheHero, itsMovement, itsAttack, itsDefence, itsBody);
 		this.setPlayer(nameOfThePlayer);
 	}
 

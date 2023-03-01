@@ -311,5 +311,3 @@ public class JeroquestTest {
 		return vector;
 	}
 }
-
-// TODO Do exercises e & f and add javadoc for created methods

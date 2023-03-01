@@ -10,7 +10,7 @@ import weapons.*;
  * @version 1
  * @since 28/02/23
  */
-public class Dwarf extends Character {
+public class Dwarf extends Hero {
 	// We define the attributes
 	protected static final int MOVEMENT = 6;
 	protected static final int ATTACK = 1;
@@ -25,7 +25,7 @@ public class Dwarf extends Character {
 	 * @param name
 	 */
 	public Dwarf(String name) {
-		super(name, MOVEMENT, ATTACK, DEFENCE, BODY);
+		super(name,"no player", MOVEMENT, ATTACK, DEFENCE, BODY);
 		this.setWeapon(new Weapon("Handaxe", 2));
 	}
 
