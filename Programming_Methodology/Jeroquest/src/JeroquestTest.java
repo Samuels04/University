@@ -30,6 +30,13 @@ public class JeroquestTest {
 		Mummy cleopatra = new Mummy("Cleopatra");
 		Mummy keops = new Mummy("Keops");
 
+		Dwarf gimli = new Dwarf("Gimli");
+		Dwarf tummas = new Dwarf("Tummas");
+		Dwarf hakin = new Dwarf("Hakin");
+		Dwarf yarrac = new Dwarf("Yarrac");
+
+		Dwarf[] dwarves = { gimli, tummas, hakin, yarrac };
+
 		System.out.println(ramses);
 		System.out.println(conan);
 
@@ -164,6 +171,12 @@ public class JeroquestTest {
 		sc.close();
 	}
 
+	/**
+	 * Checks if the Barbarians of the vector are all dead or aren't
+	 * 
+	 * @param vector
+	 * @return True or False
+	 */
 	public static boolean allDead(Barbarian[] vector) {
 		int dead = 0;
 		for (Barbarian i : vector) {
@@ -176,6 +189,12 @@ public class JeroquestTest {
 		return dead == vector.length;
 	}
 
+	/**
+	 * Checks if the Mummies of the vector are all dead or aren't
+	 * 
+	 * @param vector
+	 * @return True or False
+	 */
 	public static boolean allDead(Mummy[] vector) {
 		int dead = 0;
 		for (Mummy i : vector) {
@@ -188,16 +207,35 @@ public class JeroquestTest {
 		return dead == vector.length;
 	}
 
+	/**
+	 * Calcualates and returns the barbarian with the hiest body count
+	 * 
+	 * @param vector
+	 * @return The highest value
+	 */
 	public static Barbarian getHighestBody(Barbarian[] vector) {
 		BubbleSortLtH(vector);
 		return vector[vector.length - 1];
 	}
 
+	/**
+	 * Calculates and returns the mummy with the highest body count
+	 * 
+	 * @param vector
+	 * @return The mummy with the highest body count
+	 */
 	public static Mummy getHighestBody(Mummy[] vector) {
 		BubbleSortLtH(vector);
 		return vector[vector.length - 1];
 	}
 
+	/**
+	 * Sorts a vector of barbarians using the Bubble sort algorithm Lowest to
+	 * Highest
+	 * 
+	 * @param vector
+	 * @return The sorted barbarian vector
+	 */
 	public static Barbarian[] BubbleSortLtH(Barbarian[] vector) {
 		Barbarian aux;
 		for (int i = 0; i < vector.length - 1; i++) {
@@ -212,6 +250,12 @@ public class JeroquestTest {
 		return vector;
 	}
 
+	/**
+	 * Sorts a vector of mummies using the Bubble sort algorithm Lowest to Highest
+	 * 
+	 * @param vector
+	 * @return The sorted vector of mummies
+	 */
 	public static Mummy[] BubbleSortLtH(Mummy[] vector) {
 		Mummy aux;
 		for (int i = 0; i < vector.length - 1; i++) {
@@ -226,6 +270,13 @@ public class JeroquestTest {
 		return vector;
 	}
 
+	/**
+	 * Sorts a vector of barbarians using the Bubble sort algorithm Highest to
+	 * Lowest
+	 * 
+	 * @param vector
+	 * @return The sorted vector
+	 */
 	public static Barbarian[] BubbleSortHtL(Barbarian[] vector) {
 		Barbarian aux;
 		for (int i = 0; i < vector.length - 1; i++) {
@@ -240,6 +291,12 @@ public class JeroquestTest {
 		return vector;
 	}
 
+	/**
+	 * Sorts a vector of mummies using the Bubble Sort algorithm Highest to Lowest
+	 * 
+	 * @param vector
+	 * @return
+	 */
 	public static Mummy[] bubbleSortHtL(Mummy[] vector) {
 		Mummy aux;
 		for (int i = 0; i < vector.length - 1; i++) {
@@ -254,5 +311,3 @@ public class JeroquestTest {
 		return vector;
 	}
 }
-
-// TODO Do exercises e & f and add javadoc for created methods
