@@ -19,7 +19,7 @@ public class CommissionEmployee
       socialSecurityNumber = ssn;
       setGrossSales( sales ); // validate and store gross sales
       setCommissionRate( rate ); // validate and store commission rate
-   } // end five-argument CommissionEmployee constructor
+   } // end five-argument CommissionEmployee constructor)
 
    // set first name
    public void setFirstName( String first )

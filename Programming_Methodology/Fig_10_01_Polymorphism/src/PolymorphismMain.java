@@ -16,36 +16,41 @@ public class PolymorphismMain
          "Bob", "Lewis", "333-33-3333", 5000, .04, 300 );         
 
       // invoke toString on superclass object using superclass variable
-      System.out.printf( "%s %s:\n\n%s\n\n", 
-         "Call CommissionEmployee's toString with superclass reference ",
-         "to superclass object", commissionEmployee.toString() );
+      System.out.printf( "Call CommissionEmployee's toString with superclass reference to superclass object:\n\n%s\n\n", 
+         commissionEmployee.toString() );
 
       // invoke toString on subclass object using subclass variable      
-      System.out.printf( "%s %s:\n\n%s\n\n", 
-         "Call BasePlusCommissionEmployee's toString with subclass",
-         "reference to subclass object", 
+      System.out.printf( "Call BasePlusCommissionEmployee's toString with subclass reference to subclass object:\n\n%s\n\n", 
          basePlusCommissionEmployee.toString() );
-
-      // POLIMORFISM: invoke toString on subclass object using superclass variable
+      
       CommissionEmployee commissionEmployee2 = 
          basePlusCommissionEmployee; 
-      System.out.printf( "%s %s:\n\n%s\n", 
-         "Call BasePlusCommissionEmployee's toString with superclass",
-         "reference to subclass object", commissionEmployee2.toString() );
-   } // end main
+      System.out.printf( "Call BasePlusCommissionEmployee toString with superclass reference to subclass object:\n\n%s\n", 
+         commissionEmployee2.toString() );
+   }
+   public static CommissionEmployee earnsTheMost(CommissionEmployee[] v){
+      double max = Double.MAX_VALUE;
+      BasePlusCommissionEmployee[] v2 = (BasePlusCommissionEmployee[]) v;
+      BasePlusCommissionEmployee temp = null;
+      for(int i = 0; i < v.length; i++){
+         if(v2[i].getBaseSalary() > max){
+            temp = v2[i];
+         }
+      }
+      return temp;
+   }
+   public static void sortAscending(CommissionEmployee[] v){
+      BasePlusCommissionEmployee[] v2 = (BasePlusCommissionEmployee[]) v;
+      BasePlusCommissionEmployee aux = null;
+      for(int i = 0; i < v.length-1; i++){
+        for(int j = 0; j < v.length-1-i; j++){
+         if(v2[i].getBaseSalary() > v2[i+1].getBaseSalary()){
+            aux = v2[j];
+            v2[j] = v2[j+1];
+            v2[j+1] = aux;
+           }
+        }
+      }
+   }
 } // end class PolymorphismTest
 
-/**************************************************************************
- * (C) Copyright 1992-2010 by Deitel & Associates, Inc. and               *
- * Pearson Education, Inc. All Rights Reserved.                           *
- *                                                                        *
- * DISCLAIMER: The authors and publisher of this book have used their     *
- * best efforts in preparing the book. These efforts include the          *
- * development, research, and testing of the theories and programs        *
- * to determine their effectiveness. The authors and publisher make       *
- * no warranty of any kind, expressed or implied, with regard to these    *
- * programs or to the documentation contained in these books. The authors *
- * and publisher shall not be liable in any event for incidental or       *
- * consequential damages in connection with, or arising out of, the       *
- * furnishing, performance, or use of these programs.                     *
- *************************************************************************/
