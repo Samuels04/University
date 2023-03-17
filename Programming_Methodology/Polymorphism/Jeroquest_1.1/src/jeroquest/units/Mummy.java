@@ -1,5 +1,7 @@
 package jeroquest.units;
 
+import jeroquest.utils.*;
+
 import jeroquest.boardgame.Dice;
 
 /**
@@ -19,15 +21,16 @@ public class Mummy extends Character {
 	protected static final int ATTACK = 3;
 	protected static final int DEFENCE = 4;
 	protected static final int BODY = 2;
+	protected static Position POSITION;
 
 	/**
 	 * Create a {@link Mummy} with its name
 	 * 
 	 * @param itsName Mummy's name
 	 */
-	public Mummy(String itsName) {
+	public Mummy(String itsName, int itsRow, int itsColumn) {
 		// setting the attributes with the initial values
-		super(itsName, MOVEMENT, ATTACK, DEFENCE, BODY);
+		super(itsName, MOVEMENT, ATTACK, DEFENCE, BODY, new Position(itsRow, itsColumn));
 	}
 
 	/**
@@ -66,3 +69,4 @@ public class Mummy extends Character {
 		return 'M';
 	}
 }
+

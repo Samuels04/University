@@ -16,9 +16,7 @@ public interface Piece {
 	 * 
 	 * @param pos new position of the piece in the board
 	 */
-	public void setPosition(Position pos) {
-		this.pos = pos;
-	}
+	public void setPosition(Position pos);
 
 	public abstract char toChar();
 }

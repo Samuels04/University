@@ -32,7 +32,7 @@ public abstract class Character implements Piece {
 	 * @param itsAttack   number of dices to roll for an attack
 	 * @param itsDefence  number of dices to roll for defence
 	 * @param itsBody     initial body points
-	 * @param itsPosition
+	 * @param itsPosition Its initial position
 	 */
 	public Character(String itsName, int itsMovement, int itsAttack, int itsDefence, int itsBody,
 			Position itsPosition) {
@@ -182,9 +182,21 @@ public abstract class Character implements Piece {
 				getDefence(), getBody());
 	}
 
-	@Override
+	//Implementation of the Piece interface
+	/**
+	 * Provides the position of the character in the {@link Board}
+	 * @return The position of the {@link Character}
+	 */
 	public Position getPosition() {
 		return pos;
+	}
+
+	/**
+	 * Sets the current position of the character to the one passed as parameter 
+	 * @param position The desired new position of the character
+	 */
+	public void setPosition(Position position){
+		this.pos = position;
 	}
 
 }

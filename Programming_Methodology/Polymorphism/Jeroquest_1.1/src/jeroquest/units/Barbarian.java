@@ -1,5 +1,7 @@
 package jeroquest.units;
 
+import jeroquest.utils.*;
+
 import jeroquest.boardgame.Dice;
 
 /**
@@ -18,15 +20,18 @@ public class Barbarian extends Character {
 	protected static final int ATTACK = 1;
 	protected static final int DEFENCE = 2;
 	protected static final int BODY = 8;
+	protected static Position Position;
 
 	/**
 	 * Create a barbarian with its name
 	 * 
 	 * @param itsName Barbarian's name
+	 * @param initialRow Barbarian's initial row 
+	 * @param initialColumn Barbarian's initial column
 	 */
-	public Barbarian(String itsName) {
+	public Barbarian(String itsName, int initialRow, int initialColumn) {
 		// setting the attributes with the initial values
-		super(itsName, MOVEMENT, ATTACK, DEFENCE, BODY);
+		super(itsName, MOVEMENT, ATTACK, DEFENCE, BODY, new Position(initialRow, initialColumn));
 	}
 
 	/**
