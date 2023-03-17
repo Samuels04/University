@@ -7,8 +7,7 @@ public class Invoice implements Payable {
    private int quantity;
    private double pricePerItem;
 
-   public Invoice(String part, String description, int count,
-         double price) {
+   public Invoice(String part, String description, int count, double price) {
       partNumber = part;
       partDescription = description;
       setQuantity(count); // validate and store quantity
@@ -49,9 +48,7 @@ public class Invoice implements Payable {
 
    @Override
    public String toString() {
-      return String.format("%s: \n%s: %s (%s) \n%s: %d \n%s: $%,.2f",
-            "invoice", "part number", getPartNumber(), getPartDescription(),
-            "quantity", getQuantity(), "price per item", getPricePerItem());
+      return String.format("%s: \n%s: %s (%s) \n%s: %d \n%s: $%,.2f","invoice", "part number", getPartNumber(), getPartDescription(),"quantity", getQuantity(), "price per item", getPricePerItem());
    }
 
    @Override
