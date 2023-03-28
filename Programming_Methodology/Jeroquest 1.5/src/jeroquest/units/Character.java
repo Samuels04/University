@@ -233,7 +233,7 @@ public abstract class Character implements Piece, GraphicalPiece {
 	 * @return true if it is an enemy
 	 */
 	public boolean isEnemy(Character c) {
-		return this.getClass() != c.getClass();
+		return ((this instanceof Barbarian && c instanceof Hero) || (this instanceof Hero && c instanceof Barbarian));
 	}
 
 	/**
@@ -269,9 +269,12 @@ public abstract class Character implements Piece, GraphicalPiece {
 		while ((validPositions.length() > 0) && (steps < getMovement())) {
 			// if it can it moves in a direction chosen randomly
 			Position newPosition = validPositions.get(Dice.roll(validPositions.length()) - 1);
+
 			steps++;
+
 			String message = String.format("%s %s step %d out of %d to %s", this.getName(), this.getPosition(), steps,
 					getMovement(), newPosition);
+
 			Controller.getInstance().getCurrentGame().getBoard().movePiece(this, newPosition);
 
 			// window
@@ -290,11 +293,17 @@ public abstract class Character implements Piece, GraphicalPiece {
 	 */
 	public void resolveTurn() {
 
-		// Attack to a random enemy
-		actionCombat();
+		if (this instanceof Hero) {
+			while (validTargets().length() == 0) {
+				actionMovement();
 
-		// Move randomly through the board
-		actionMovement();
+				actionCombat();
+			}
+		} else {
+			actionCombat();
+
+			actionMovement();
+		}
 
 		// Possibles improvement (among others):
 		// - Move towards the closest enemy / with less body points /...
@@ -310,7 +319,8 @@ public abstract class Character implements Piece, GraphicalPiece {
 	/**
 	 * Returns the {@link Character} that is going to be attacked
 	 * 
-	 * @return the target for the character in its current position
+	 * @return the target for the ch
+	 *         aracter in its current position
 	 */
 	public DynamicVectorCharacters validTargets() {
 		// search targets
@@ -322,7 +332,7 @@ public abstract class Character implements Piece, GraphicalPiece {
 		for (int i = 0; i < characters.length(); i++) {
 			if (characters.get(i).isAlive() && this.isEnemy(characters.get(i))
 					&& this.isAtRange(characters.get(i).getPosition())) {
-				validTargets.add(i);
+				validTargets.add(characters.get(i));
 			}
 		}
 
@@ -394,7 +404,7 @@ public abstract class Character implements Piece, GraphicalPiece {
 	 */
 	public Character getHighestBodyPoints(DynamicVectorCharacters v) {
 		int maxBody = Integer.MIN_VALUE;
-		Character characterWithMaxBodyPoints = null;
+		Character characterWithMaxBodyPoints = v.get(0);
 
 		for (int i = 0; i < v.length(); i++) {
 			if (v.get(i).getBody() > maxBody) {

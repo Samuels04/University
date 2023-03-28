@@ -1,4 +1,5 @@
 package jeroquest.utils;
+
 import jeroquest.units.Character;
 
 /**
@@ -42,5 +43,11 @@ public class DynamicVectorCharacters extends DynamicVectorObjects {
 			temp[i] = this.get(i);
 		return temp;
 	}
+
+	/*
+	 * public void set(int i, Character x) {
+	 * super.set(i, x);
+	 * }
+	 */
 
 }

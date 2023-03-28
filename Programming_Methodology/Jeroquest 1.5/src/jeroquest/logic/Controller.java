@@ -5,6 +5,7 @@ import jeroquest.boardgame.Position;
 import jeroquest.gui.GraphicalPiece;
 import jeroquest.gui.JeroquestWindow;
 import jeroquest.gui.MyKeyboard;
+import jeroquest.units.Character;
 //import jeroquest.units.Character;
 import jeroquest.units.Hero;
 import jeroquest.units.Monster;
@@ -164,7 +165,7 @@ public class Controller {
 		for (int i = 0; i < v.length(); i++) {
 			int result = Dice.roll(v.length() - 1);
 
-			Object aux = v.get(i);
+			Character aux = v.get(i);
 			v.set(i, v.get(result));
 			v.set(result, aux);
 		}

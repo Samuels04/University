@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 
 public class Dwarf extends Hero {
 	// initial values for the attributes
-	protected static final int MOVEMENT = 6;
+	protected static final int MOVEMENT = 16;
 	protected static final int ATTACK = 1;
 	protected static final int DEFENCE = 2;
 	protected static final int BODY = 7;
