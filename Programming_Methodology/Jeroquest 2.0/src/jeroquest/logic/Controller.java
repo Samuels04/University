@@ -15,6 +15,7 @@ import jeroquest.units.Character;
 import jeroquest.units.DirtyRat;
 import jeroquest.units.Hero;
 import jeroquest.units.Monster;
+import jeroquest.units.Zombie;
 import jeroquest.utils.DynamicVectorCharacters;
 
 /**
@@ -158,6 +159,21 @@ public class Controller {
 			if (c.isAlive())
 				c.resolveTurn();
 		}
+
+		DynamicVectorCharacters zombies = new DynamicVectorCharacters();
+
+		for(Character c : currentGame.getCharacters()){
+			if(c instanceof Zombie && c.isAlive()){
+				((Zombie) c).degradation();
+				zombies.add(c);
+			}
+		}
+
+		for(int i = 0; i < zombies.length(); i++){
+			if(!zombies.get(i).isAlive()){
+				removeCharacter(currentGame.getCharacters(), zombies.get(i));
+			}
+		}
 	}
 
 	/**
@@ -277,5 +293,27 @@ public class Controller {
 			}
 
 		}
+	}
+
+	private void removeCharacter(Character[] c, Character ch){
+		Character[] temp = new Character[c.length - 1];
+		int pos = 0;
+		int i = 0;
+		while(i < c.length){
+			if(c[i].equals(ch)){
+				pos = i;
+			} else {
+				i++;
+			}
+		}
+
+		for(int j = 0; j < pos; j++){
+			temp[j] = c[j];
+		}
+		for(int j = pos; j < c.length; j++){
+			temp[j] = c[j + 1];
+		}
+
+		c = temp;
 	}
 }
