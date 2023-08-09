@@ -8,5 +8,13 @@ Samuel Sanchez and I study at University of Oviedo.
 
 ## First year
 
-I started this on my Second Semester so there isn't much here yet. But I will start uploading files soon
-Starting today (300123).
+On the first semester of the year this repository did not exist, so there isn't much from that time.
+
+### 2nd Semester
+
+All files will be kept in the folder **1st Year**, divided into the subfolders correspondant to the subjects (**Computer Science Fundamentals**,**Programming Methodology**)
+
+## Second Year
+
+---To be completed when year begins---
+
