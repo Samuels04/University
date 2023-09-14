@@ -6,7 +6,7 @@ package datastr;
  *
  * <p>The denominator must be positive</p>
  */
-public interface Rational implements Comparable<Rational> {
+public interface Rational extends Comparable<Rational> {
 
     /**
      * Returns the greatest common divisor of the given integers.
@@ -86,8 +86,8 @@ public interface Rational implements Comparable<Rational> {
     }
 
     @Override
-    public int compareTo(Rational o) {
-        return (this.denominator() == o.denominator()) && (this.numerator() == o.numerator())
+    public default int compareTo(Rational o) {
+        return (this.numerator()/this.denominator() > o.numerator()/o.denominator()) ? 1 : 0;
     }
 
 

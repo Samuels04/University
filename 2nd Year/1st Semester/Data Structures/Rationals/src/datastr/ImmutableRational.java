@@ -5,7 +5,7 @@ import estdatos.Pair;
 /**
  * Immutable type of rational numbers.
  */
-public class ImmutableRational extends AbstractRational {
+public abstract class ImmutableRational extends AbstractRational {
     /**
      * The pair {@code (numerator, denominator)}.
      */
@@ -39,5 +39,7 @@ public class ImmutableRational extends AbstractRational {
         p.setFirst(r.numerator());
         p.setSecond(r.denominator());
     }
+
+
 
 }
