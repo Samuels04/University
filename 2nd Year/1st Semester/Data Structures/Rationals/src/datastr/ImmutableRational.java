@@ -1,16 +1,25 @@
 package datastr;
 
-import estdatos.Pair;
+import pairs.estdatos.Pair;
 
 /**
  * Immutable type of rational numbers.
  */
-public abstract class ImmutableRational extends AbstractRational {
+public class ImmutableRational extends AbstractRational {
     /**
      * The pair {@code (numerator, denominator)}.
      */
     private Pair<Integer, Integer> p;
 
+    @Override
+    public int denominator() {
+        return p.second();
+    }
+
+    @Override
+    public int numerator() {
+        return p.first();
+    }
     /**
      * Creates the rational {@code n/d}. The denominator
 	 * must be positive.
