@@ -16,5 +16,7 @@ All files will be kept in the folder **1st Year**, divided into the subfolders c
 
 ## Second Year
 
----To be completed when year begins---
+### First semester
+
+I will be uploading the lab session of the subjects Algorithmics and Data Structures. Besides, I have started an app in Swift for the subject Algorithmics. All in the folder 2nd Year and in each sub-folder a subject.
 
