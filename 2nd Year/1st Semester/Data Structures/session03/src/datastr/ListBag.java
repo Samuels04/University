@@ -25,7 +25,7 @@ public class ListBag<E> extends AbstractCollection<E>{
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean add(Object e) {
+    public boolean add(E e) {
         return e == null ? false : data.add((E) e);
     }
 

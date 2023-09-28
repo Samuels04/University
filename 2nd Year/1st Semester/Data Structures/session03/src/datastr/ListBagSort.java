@@ -13,19 +13,24 @@ public class ListBagSort<E> extends ListBag<E> {
     private Comparator<? super E> cmp;
     
     public ListBagSort(){
-        data = new LinkedList<>();
+        data = new LinkedList<E>();
     }
 
     public ListBagSort(Collection<E> c){
-        data = new LinkedList<>(c);
+        this();
+        this.addAll(c);
     }
 
     public ListBagSort(Collection<E> c, Comparator<? super E> cp){
-        data = new LinkedList<>(c);
+        this();
         cmp = cp;
+        this.addAll(c);
+        
     }
 
     public int compare(E a, E b) {
+        if(cmp == null)
+            return ((Comparable<E>) a).compareTo(b);
         return cmp.compare(a, b);
     }
 
@@ -36,22 +41,25 @@ public class ListBagSort<E> extends ListBag<E> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean add(Object e){
+    public boolean add(E e){
         ListIterator<E> it = this.data.listIterator();
         if (e == null)
             return false;
         
         if(this.data.isEmpty()){
-            return data.add((E) e);
+            return data.add(e);
         } else {
-            for(int i = 0; i < this.data.size() && it.hasNext(); i++){
-                if(compare(it.next(), (E) e) < 0){
-                    data.add(it.previousIndex(), (E) e);
+            while(it.hasNext()){
+                if(compare(it.next(), e) > 0){
+                    it.previous();
+                    it.add(e);
                     return true;
                 }
             
             }
         }
+
+        it.add(e);
         
         return false;
     }
