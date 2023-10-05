@@ -31,7 +31,6 @@ public class measure_turn_2022 {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		int REPETITIONS = 100;
 		int NUM_SIZES = 12;
@@ -53,13 +52,13 @@ public class measure_turn_2022 {
 		 for (i=0;i<NUM_SIZES;i++)
 		     {
 		     // Create a vector with the required size
-			 int[] vector=new int [sizes[i]];
+			 int[] vector = new int [sizes[i]];
 
 		     // Fill up the vector for the sizes[i]
-		     fillOut(vector,sizes[i]);
+		     fillOut(vector, sizes[i]);
 
 		     // Call to the function clock before running the code to be measured
-		     time_start=System.currentTimeMillis();
+		     time_start = System.currentTimeMillis();
 
 		     // Loop to repeat the experiment
 		     for (j = 0; j < REPETITIONS; j++)

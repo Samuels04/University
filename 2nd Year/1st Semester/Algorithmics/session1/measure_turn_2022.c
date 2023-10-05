@@ -103,11 +103,15 @@ int turn(int *V,int n)
     int i, j, aux;
 
     for (i = 1; i < n -2; i++){
+
         for (j = 0; j <= n - i; j++) {
+
             aux = V[j-1];
             V[j-1] = V[j];
             V[j] = aux;
+
         }
+        
     }
     return *V;
 }

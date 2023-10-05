@@ -25,15 +25,15 @@ from random import randrange
 # Function to fill up randomly a vector for a specific size
 def fillOut(size, n):
     values = [0] * n
-    for i in range(n):
-        values[i]=randrange(0,n)
+    for i in range(sizes):
+        values[i] = randrange(0,n)
     return values
 
 # Function to turn the elements of a vector
 def turn(values):
     for i in range(1,len(values)):
-        for j in range(1,len(values)-i+1):
-            values[j-1], values[j+1-1] = values[j+1-1], values[j-1]
+        for j in range(1, len(values) - i + 1):
+            values[j - 1], values[j + 1 - 1] = values[j + 1 - 1], values[j - 1]
             #
             # the former line is equivalent to the following three lines
             #
@@ -46,8 +46,8 @@ def turn(values):
 # Main program
 
 # It is defined a vector with 10 sizes to be measured as follows
-sizes=[1000,2000,3000,4000,5000,6000,7000,8000,9000,10000, 11000, 12000]
-upperbound=1000
+sizes = [1000,2000,3000,4000,5000,6000,7000,8000,9000,10000, 11000, 12000]
+upperbound = 1000
 
 # Establish the number of repetitions
 repetitions=100
@@ -61,7 +61,7 @@ print ("\t\t-----\t\t------")
 # Loop to go through the different sizes to be measured
 for i in range(len(sizes)):
     # Fill up the vector for sizes[i]
-    vector=fillOut(sizes[i], upperbound)
+    vector = fillOut(sizes[i], upperbound)
 
     # Call to the function clock before running the code to be measured
     time_start = time()
