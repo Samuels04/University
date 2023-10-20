@@ -1,8 +1,8 @@
 package estdatos;
 
-import estdatos.LCRSTree;
+// Remove the import statement for LCRSTree if you are not using it
+// import estdatos.LCRSTree;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
@@ -14,8 +14,8 @@ import java.util.ListIterator;
 public class ListTree<E> extends AbstractTree<E> {
 
 	private E labelroot;
-	private List<Tree<E>> children;
-	Tree<E> parent;
+	private List<iTree<E>> children;
+	iTree<E> parent;
 	/**
 	 * Creates a tree whose root node is labeled as specified and
 	 * whose children are the root nodes of the specified trees.
@@ -24,11 +24,11 @@ public class ListTree<E> extends AbstractTree<E> {
 	 * this tree's root (trees is an array of trees)
 	 */
 	@SafeVarargs
-	public ListTree(E e, Tree<E> ...trees) {
+	public ListTree(E e, iTree<E> ...trees) {
 		this.labelroot = e;
 		children = new LinkedList<>();
 		for(int i = 0; i < trees.length; i++){
-			ListTree<E> s = ListTree(trees[i]);
+			ListTree<E> s = new ListTree<>(trees[i]);
 			children.add(s);
 			s.parent = this;
 			
@@ -41,11 +41,11 @@ public class ListTree<E> extends AbstractTree<E> {
 	 * equal to the specified tree.
 	 * @param t the given tree
 	 */
-	@SuppressWarnings("unchecked")
-	public ListTree(Tree<E> t) {
+
+	public ListTree(iTree<E> t) {
 		labelroot = t.label();
 		children = new LinkedList<>();
-		ChildrenIterator<Tree<E>> itr = t.childrenIterator();
+		ChildrenIterator<iTree<E>> itr = t.childrenIterator();
 		while(itr.hasNext()){
 			ListTree<E> s = new ListTree<>(itr.next());
 			children.add(s);
@@ -65,13 +65,13 @@ public class ListTree<E> extends AbstractTree<E> {
 	}
 
 	@Override
-	public ChildrenIterator<Tree<E>> childrenIterator() {
+	public ChildrenIterator<iTree<E>> childrenIterator() {
 		return new ListTreeIterator();
 	}
 
-	private final class ListTreeIterator implements ChildrenIterator<Tree<E>> {
+	private final class ListTreeIterator implements ChildrenIterator<iTree<E>> {
 
-		private ListIterator<Tree<E>> lit = children.listIterator();
+		private ListIterator<iTree<E>> lit = children.listIterator();
 
 		@Override
 		public boolean hasNext() {
@@ -79,18 +79,18 @@ public class ListTree<E> extends AbstractTree<E> {
 		}
 
 		@Override
-		public Tree<E> next() {
+		public iTree<E> next() {
 			return this.lit.next();
 		}
 
 		@Override
-		public void set(Tree<E> e){
+		public void set(iTree<E> e){
 			ListTree<E> s = new ListTree<>(e);
 			s.parent = ListTree.this;
 			lit.set(s);
 		}
 		@Override
-		public void add(Tree<E> e){
+		public void add(iTree<E> e){
 			ListTree<E> s = new ListTree<>(e);
 			s.parent = ListTree.this;
 			lit.add(s);

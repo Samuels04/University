@@ -1,10 +1,10 @@
 
 
-//import estdatos.ChildrenIterator;
+import estdatos.ChildrenIterator;
+import estdatos.iTree;
 import estdatos.FTree;
 import estdatos.LCRSTree;
 import estdatos.ListTree;
-import estdatos.Tree;
 
 
 public class App {
@@ -16,7 +16,7 @@ public class App {
      * to the first node label in postorder {@code e}. If the label
      * is not found in the tree, returns -1
      */
-	public static <E> int length(Tree<E> t, E e) {
+	public static <E> int length(iTree<E> t, E e) {
 
 		return 0;
 	}
@@ -27,21 +27,19 @@ public class App {
 		// when going through it in preorder and postorder.
 		// This tree will be an instance of TreeLCRS<Character> and, hence,
 		// is represented by a binary tree.
-		Tree<Character> t = FTree.createTree("abdhicefjg", "hidbejfgca");
+		iTree<Character> t = FTree.createTree("abdhicefjg", "hidbejfgca");
 		
-		System.out.printf("¿t instanceof TreeLCRS<Character>? %b\n",
-				t instanceof LCRSTree<?>);
-		System.out.printf("¿t instanceof TreeList<Character>? %b\n",
-				t instanceof ListTree<?>);
+		System.out.printf("¿t instanceof TreeLCRS<Character>? %b\n",t instanceof LCRSTree<?>);
+		System.out.printf("¿t instanceof TreeList<Character>? %b\n", t instanceof ListTree<?>);
 		// Check of type. Every subtree of t must be of type TreeLCRS<Character>
 		FTree.typeChecking("t", t);
 			
 		// Now, the tree t will be used with the constructors of type TreeList<E>
 		// in order to create the instances of this type: tree1 y tree2. In
 		// addition, a copy of tree1 is created.
-		Tree<Character> tree1 = new ListTree<>(t);
-		Tree<Character> tree2 = new ListTree<>('x', new ListTree<>('y'), t);
-		Tree<Character> tree1Copy = new ListTree<>(tree1);
+		iTree<Character> tree1 = new ListTree<>(t);
+		iTree<Character> tree2 = new ListTree<>('x', new ListTree<>('y'), t);
+		iTree<Character> tree1Copy = new ListTree<>(tree1);
 		
 		// Check of type. Every subtree of tree1, tree2 and tree1Copy
 		// must be of type TreeLCRS<Character>
