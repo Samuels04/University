@@ -14,8 +14,8 @@ import java.util.ListIterator;
 public class ListTree<E> extends AbstractTree<E> {
 
 	private E labelroot;
-	private List<iTree<E>> children;
-	iTree<E> parent;
+	private List<Tree<E>> children;
+	Tree<E> parent;
 	/**
 	 * Creates a tree whose root node is labeled as specified and
 	 * whose children are the root nodes of the specified trees.
@@ -24,7 +24,7 @@ public class ListTree<E> extends AbstractTree<E> {
 	 * this tree's root (trees is an array of trees)
 	 */
 	@SafeVarargs
-	public ListTree(E e, iTree<E> ...trees) {
+	public ListTree(E e, Tree<E> ...trees) {
 		this.labelroot = e;
 		children = new LinkedList<>();
 		for(int i = 0; i < trees.length; i++){
@@ -42,10 +42,10 @@ public class ListTree<E> extends AbstractTree<E> {
 	 * @param t the given tree
 	 */
 
-	public ListTree(iTree<E> t) {
+	public ListTree(Tree<E> t) {
 		labelroot = t.label();
 		children = new LinkedList<>();
-		ChildrenIterator<iTree<E>> itr = t.childrenIterator();
+		ChildrenIterator<Tree<E>> itr = t.childrenIterator();
 		while(itr.hasNext()){
 			ListTree<E> s = new ListTree<>(itr.next());
 			children.add(s);
@@ -54,43 +54,43 @@ public class ListTree<E> extends AbstractTree<E> {
 		
 	}
 
-	@Override
+
 	public boolean isLeaf() {
 		return this.children.size() == 0;
 	}
 
-	@Override
+
 	public E label() {
 		return this.labelroot;
 	}
 
-	@Override
-	public ChildrenIterator<iTree<E>> childrenIterator() {
+
+	public ChildrenIterator<Tree<E>> childrenIterator() {
 		return new ListTreeIterator();
 	}
 
-	private final class ListTreeIterator implements ChildrenIterator<iTree<E>> {
+	private final class ListTreeIterator implements ChildrenIterator<Tree<E>> {
 
-		private ListIterator<iTree<E>> lit = children.listIterator();
+		private ListIterator<Tree<E>> lit = children.listIterator();
 
-		@Override
+
 		public boolean hasNext() {
 			return this.lit.hasNext();
 		}
 
-		@Override
-		public iTree<E> next() {
+
+		public Tree<E> next() {
 			return this.lit.next();
 		}
 
-		@Override
-		public void set(iTree<E> e){
+
+		public void set(Tree<E> e){
 			ListTree<E> s = new ListTree<>(e);
 			s.parent = ListTree.this;
 			lit.set(s);
 		}
-		@Override
-		public void add(iTree<E> e){
+
+		public void add(Tree<E> e){
 			ListTree<E> s = new ListTree<>(e);
 			s.parent = ListTree.this;
 			lit.add(s);

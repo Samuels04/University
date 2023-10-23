@@ -4,11 +4,11 @@ package estdatos;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class AbstractTree<E> implements iTree<E> {
+public abstract class AbstractTree<E> implements Tree<E> {
 		
 	private String childrenList() {
 		List<E> l = new LinkedList<>();
-		ChildrenIterator<iTree<E>> itr = childrenIterator();
+		ChildrenIterator<Tree<E>> itr = childrenIterator();
 		while (itr.hasNext()) {
 			l.add(itr.next().label());
 		}
@@ -24,9 +24,9 @@ public abstract class AbstractTree<E> implements iTree<E> {
 		out.append(childrenList());
 		out.append('\n');
 		
-		ChildrenIterator<iTree<E>> itr = childrenIterator();
+		ChildrenIterator<Tree<E>> itr = childrenIterator();
 		while (itr.hasNext()) {
-			iTree<E> child = itr.next();
+			Tree<E> child = itr.next();
 			if (child.childrenIterator().hasNext()) {
 				out.append(child.toString());
 			}
@@ -36,7 +36,7 @@ public abstract class AbstractTree<E> implements iTree<E> {
 	}
 
 	@Override
-	public boolean equals(iTree<E> e){
+	public boolean equals(Tree<E> e){
 		return e.label() == this.label();
 	}
 }

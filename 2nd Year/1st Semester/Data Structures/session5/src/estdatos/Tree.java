@@ -1,6 +1,6 @@
 package estdatos;
 
-public interface iTree<E> {
+public interface Tree<E> {
 
 	/**
 	 * Returns true if the root of this tree is a leaf
@@ -21,7 +21,7 @@ public interface iTree<E> {
 	 * 
 	 * @return an iterator of the children nodes of this tree's root
 	 */
-	ChildrenIterator<iTree<E>> childrenIterator();
+	ChildrenIterator<Tree<E>> childrenIterator();
 
 	/**
 	 * Changes the label of this tree's root to the specified
@@ -37,13 +37,13 @@ public interface iTree<E> {
 		throw new UnsupportedOperationException();
 	}
 	
-	default public boolean equals(iTree<E> t) {
+	default public boolean equals(Tree<E> t) {
 		if (!label().equals(t.label())) {
 			return false;
 		}
 		
-		ChildrenIterator<iTree<E>> itrThis = childrenIterator();
-		ChildrenIterator<iTree<E>> itrT = t.childrenIterator();
+		ChildrenIterator<Tree<E>> itrThis = childrenIterator();
+		ChildrenIterator<Tree<E>> itrT = t.childrenIterator();
 		while (itrThis.hasNext() && itrT.hasNext()) {
 			if (!itrThis.next().equals(itrT.next())) {
 				return false;
