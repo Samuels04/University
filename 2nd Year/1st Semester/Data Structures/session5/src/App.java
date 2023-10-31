@@ -52,7 +52,7 @@ public class App {
 		/*** equals operation required ***/
 		// Object obj = t;
 		
-		// // Checking the equalities of trees tree1 and tree2 with obj
+		// Checking the equalities of trees tree1 and tree2 with obj
 		// System.out.printf("¿tree1.equals(t)? %b\n", tree1.equals(obj));	// true
 		// System.out.printf("¿tree2.equals(t)? %b\n", tree2.equals(obj));	// false
 		// System.out.println();
@@ -77,9 +77,9 @@ public class App {
 		
 		/*** Obligatory operations of the iterator childrenIterator() required ***/
 
-		// // Show on the console the trees tree1 and tree2. They are covered in
-		// // preorder and, for each node with children, its label is shown, and,
-		// // then, the list with the labels of the children.
+		//Show on the console the trees tree1 and tree2. They are covered in
+		// preorder and, for each node with children, its label is shown, and,
+		// then, the list with the labels of the children.
 		// System.out.printf("Tree tree1:\n%s\n", tree1);	// Tree tree1:
 		// 												// a: [b, c]
 		// 												// b: [d]
@@ -97,7 +97,7 @@ public class App {
 		
 		/*** Optional operations of the iterator childrenIterator() required ***/
 			
-		// // Delete from the tree tree1 the subtree whose root node has label 'c'.
+		// Delete from the tree tree1 the subtree whose root node has label 'c'.
 		// FTree.removeTree(tree1, 'c');
 		// System.out.printf("Tree tree1:\n%s\n", tree1);	// Tree tree1:
 		// 												// a: [b]
@@ -105,7 +105,7 @@ public class App {
 		// 												// d: [h, i]
 		// System.out.println();
 		
-		// // The tree tree1 is created again, along with a new one (other)
+		/// The tree tree1 is created again, along with a new one (other)
 		// tree1 = new ListTree<>(tree1Copy);
 		// Tree<Character> other = 
 		// 		new ListTree<Character>('1',

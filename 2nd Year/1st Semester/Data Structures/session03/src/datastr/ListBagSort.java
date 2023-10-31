@@ -27,11 +27,10 @@ public class ListBagSort<E> extends ListBag<E> {
         this.addAll(c);
         
     }
-
+    @SuppressWarnings("unchecked")
     public int compare(E a, E b) {
-        if(cmp == null)
-            return ((Comparable<E>) a).compareTo(b);
-        return cmp.compare(a, b);
+        return cmp == null ? ((Comparable<E>) a).compareTo(b) : cmp.compare(a, b);
+    
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ListBagSort<E> extends ListBag<E> {
         return this.data.contains(b);
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
     public boolean add(E e){
         ListIterator<E> it = this.data.listIterator();

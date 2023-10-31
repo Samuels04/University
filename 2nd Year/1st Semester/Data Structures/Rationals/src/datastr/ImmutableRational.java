@@ -1,6 +1,6 @@
 package datastr;
 
-import pairs.estdatos.Pair;
+import estdatos.*;
 
 /**
  * Immutable type of rational numbers.
