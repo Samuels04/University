@@ -1,0 +1,6 @@
+Los archivos de texto en el sistema operativo Windows constan de varias 
+líneas donde cada línea se compone de una secuencia de caracteres; cada
+línea implícita de un usuario se define mediante dos caracteres:
+retorno de carro (CR) y salto de línea (LF). 
+Los archivos de texto de Windows pueden estar en codificación ANSI, OEM,
+Unicode o UTF-8.
