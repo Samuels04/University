@@ -1,6 +1,6 @@
 package datastr;
 
-import estdatos.*;
+import pairs.*;
 
 /**
  * Immutable type of rational numbers.
@@ -38,6 +38,8 @@ public class ImmutableRational extends AbstractRational {
         else    
             p = new ImmutablePair<>(-n,-d);
     }
+
+    
 
     /**
      * Conversion constructor.

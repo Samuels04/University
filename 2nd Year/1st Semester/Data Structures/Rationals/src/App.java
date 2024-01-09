@@ -1,7 +1,7 @@
-package practice_ds;
 
+
+import datastr.AbstractRational;
 import datastr.ImmutableRational;
-import datastr.Rational;
 
 /**
  * Class for the main program of rational numbers.

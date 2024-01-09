@@ -1,5 +1,6 @@
 {
 	"java.project.referencedLibraries": [
-		"lib/pairs.jar"
+		"lib/pairs.jar",
+		"/Users/joseantonio/Desktop/DS/Rationals/lib/pairs.jar"
 	]
 }
