@@ -43,7 +43,6 @@ public class SecondaryWindow1 extends javax.swing.JFrame {
 
         jLabel2.setText("jLabel2");
 
-        jTextField1.setText("jTextField1");
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
@@ -83,7 +82,11 @@ public class SecondaryWindow1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
-        mainWindow.setLabel3Text(mainWindow.jLabel3.getText() + evt.getKeyChar());
+        if(evt.getKeyChar() == '\u0008')
+            mainWindow.jLabel3.remove(mainWindow.jLabel3.getText().length() - 1);
+        
+        else
+            mainWindow.setLabel3Text(mainWindow.jLabel3.getText() + evt.getKeyChar());
     }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
