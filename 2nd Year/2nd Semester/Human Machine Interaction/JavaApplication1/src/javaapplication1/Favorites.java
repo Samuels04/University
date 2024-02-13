@@ -33,8 +33,6 @@ public class Favorites extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         Unfavourite = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jList1);
 

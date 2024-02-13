@@ -12,13 +12,13 @@ public class Element {
     private String name;
     private String symbol;
     private int atomicNumber;
-    private int massNumber;
+    private double massNumber;
     private boolean favourite;
-    private String group;
+    //private String group;
     
     
     
-    public Element(String name, int atomicNumber, int massNumber, String symbol) {
+    public Element(String name, int atomicNumber, double massNumber, String symbol) {
     
         this.name = name;
         this.symbol = symbol;
@@ -34,8 +34,11 @@ public class Element {
     public int getAtomicNumber(){
         return this.atomicNumber;
     }
-    public int getMassNumber(){
+    public double getMassNumber(){
         return this.massNumber;
+    }
+    public String getSymbol(){
+        return this.symbol;
     }
     public void favourite(){
         favourite = true;
