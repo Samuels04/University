@@ -46,4 +46,7 @@ public class Element {
     public void unfavourite(){
         favourite = false;
     }
+    public boolean isFavourite(){
+        return favourite;
+    }
 }

@@ -16,18 +16,28 @@ public class ElementView extends javax.swing.JFrame {
     /**
      * Creates new form ElementView
      */
-    public ElementView(Element element_param) {
+    
+    public ElementView(){
         initComponents();
         setLocationRelativeTo(null);
-        this.element = element_param;
-        setName(element.getName());
-        Mass.setText(String.format("%f", element.getMassNumber()));
-        Atomic.setText(String.format("%f", element.getAtomicNumber()));
+    }
+    public ElementView(MainWindow mainWindow){
+        this();
+        this.main = mainWindow;
     }
     
     public void setName(String name){
         jLabel1.setText(name);
     }
+    
+    public void setElement(Element element_param){
+        this.element = element_param;
+        this.setName(element_param.getName());
+        this.Atomic.setText(String.format("%d",element_param.getAtomicNumber()));
+        this.Mass.setText(String.format("%f", element_param.getMassNumber()));
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,66 +49,88 @@ public class ElementView extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        Mass_title = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
         Mass = new javax.swing.JLabel();
-        Atomic_title = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         Atomic = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Avenir Next", 1, 36)); // NOI18N
         jLabel1.setToolTipText("");
 
-        Mass_title.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        Mass_title.setText("Mass:");
+        jTabbedPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTabbedPane1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
 
         Mass.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         Mass.setText("jLabel2");
 
-        Atomic_title.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
-        Atomic_title.setText("Atomic:");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(173, 173, 173)
+                .addComponent(Mass)
+                .addContainerGap(273, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(Mass)
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Mass Number", jPanel2);
 
         Atomic.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         Atomic.setText("jLabel2");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(173, 173, 173)
+                .addComponent(Atomic)
+                .addContainerGap(273, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(Atomic)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Atomic Number", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(215, 215, 215)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(Mass_title)
-                        .addGap(18, 18, 18)
-                        .addComponent(Mass))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(Atomic_title)
-                        .addGap(18, 18, 18)
-                        .addComponent(Atomic)))
-                .addContainerGap(317, Short.MAX_VALUE))
+                .addGap(215, 215, 215)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel1)
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Mass_title)
-                    .addComponent(Mass))
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Atomic)
-                    .addComponent(Atomic_title))
-                .addContainerGap(189, Short.MAX_VALUE))
+                .addGap(78, 78, 78)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+        
     /**
      * @param args the command line arguments
      */
@@ -129,7 +161,7 @@ public class ElementView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ElementView(new Element(element.getName(), element.getAtomicNumber(), element.getMassNumber(), element.getSymbol())).setVisible(false);
+                new ElementView().setVisible(false);
             }
         });
     }
@@ -137,11 +169,13 @@ public class ElementView extends javax.swing.JFrame {
     
     
    private static Element element;
+   private static MainWindow main;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JLabel Atomic;
-    private javax.swing.JLabel Atomic_title;
     private static javax.swing.JLabel Mass;
-    private javax.swing.JLabel Mass_title;
     private static javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

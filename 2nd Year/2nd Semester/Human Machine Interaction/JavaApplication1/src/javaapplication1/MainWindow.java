@@ -18,7 +18,13 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         setLocationRelativeTo(null);
-        favorites = new Favorites(false);
+        favourites.setModel(m_favourites);
+        element = new ElementView(this);
+        for(int i = 1; i <= m.getSize(); i++){
+            elements.put(names[i - 1], new Element(names[i - 1], i, massNumbers[i-1], symbols[i-1]));
+            m.addElement(names[ i - 1]);
+        }
+        
     }
 
     /**
@@ -31,25 +37,23 @@ public class MainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        Favourites = new javax.swing.JButton();
         Visualize = new javax.swing.JButton();
-        Group = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        favourites = new javax.swing.JList<>();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Avenir Next", 1, 36)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Welcome to this periodic table visualizer");
-
-        Favourites.setText("Favourites");
-        Favourites.setToolTipText("");
-        Favourites.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FavouritesActionPerformed(evt);
-            }
-        });
 
         Visualize.setText("Visualize");
         Visualize.setToolTipText("");
@@ -59,66 +63,90 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        Group.setText("Group:");
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Caesium", "Barium", "Lanthanum", "Cerium", "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium", "Californium", "Einstenium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", "Dubnium", "Seborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roengtenium", "Copernicium", "Nihonium", "Flerovium", "Moscovium", "Livermorium", "Tennessine", "Oganesson" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        jList2.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList2.setToolTipText("\"Hydrogen\", Helium, Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Fluorine, Neon, Sodium, Magnesium,          Aluminium, Silicon, Phosphorus, Sulfur, Chlorine, Argon, Potassium, Calcium, Scandium, Titanium, Vanadium, Chromium, Manganese, Iron, Cobalt,          Nickel, Copper, Zinc, Gallium, Germanium, Arsenic, Selenium, Bromine, Krypton, Rubidium, Strontium, Yttrium, Zirconium, Niobium, Molybdenum,          Technetium, Ruthenium, Rhodium, Palladium, Silver, Cadmium, Indium, Tin, Antimony, Tellurium, Iodine, Xenon, Caesium, Barium, Lanthanum, Cerium,          Praseodymium, Neodymium, Promethium, Samarium, Europium, Gadolinium, Terbium, Dysprosium, Holmium, Erbium, Thulium, Ytterbium, Lutetium, Hafnium,          Tantalum, Tungsten, Rhenium, Osmium, Iridium, Platinum, Gold, Mercury, Thallium, Lead, Bismuth, Polonium, Astatine, Radon, Francium, Radium, Actinium,          Thorium, Protactinium, Uranium, Neptunium, Plutonium, Americium, Curium, Berkelium, Californium, Einstenium, Fermium, Mendelevium, Nobelium,          Lawrencium, Rutherfordium, Dubnium, Seborgium, Bohrium, Hassium, Meitnerium, Darmstadtium, Roengtenium, Copernicium, Nihonium, Flerovium, Moscovium, Livermorium, Tennessine, Oganesson");
+        jList2.setValueIsAdjusting(true);
         jScrollPane2.setViewportView(jList2);
+
+        jTabbedPane1.addTab("All Elements", jScrollPane2);
+
+        favourites.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(favourites);
+
+        jTabbedPane1.addTab("Favourite", jScrollPane1);
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setText("Close");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Add to favourites");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addComponent(jLabel1)
+                .addContainerGap(96, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(316, 316, 316)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Favourites)
-                                    .addComponent(Visualize)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(Group))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(162, 162, 162)
-                        .addComponent(jLabel1)))
-                .addContainerGap(163, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Visualize)
+                        .addGap(53, 53, 53)))
+                .addGap(320, 320, 320))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Favourites)
-                        .addGap(11, 11, 11)
-                        .addComponent(Group)
-                        .addGap(100, 100, 100)
-                        .addComponent(Visualize))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(109, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Visualize)
+                .addGap(33, 33, 33))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void FavouritesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FavouritesActionPerformed
-        favorites.changeVisibility(true);
-    }//GEN-LAST:event_FavouritesActionPerformed
-
     private void VisualizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizeActionPerformed
-        element = new ElementView(elements.get(jList2.getSelectedValue()));
+        element.setElement(elements.get(jList2.getSelectedValue()));
         element.setVisible(true);
     }//GEN-LAST:event_VisualizeActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        this.addFavourite(elements.get(jList2.getSelectedValue()));
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -151,20 +179,37 @@ public class MainWindow extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainWindow().setVisible(true);
-                m = (DefaultListModel<String>) jList2.getModel();
-                for(int i = 0; i < m.getSize(); i++){
-                    elements.put(m.get(i), new Element(m.get(i), i, massNumbers[i], symbols[i]));
-                }
+                
             }
         }); 
 
     }
     
+    protected void addFavourite(Element element){
+        m_favourites.addElement(element.getName());
+        element.favourite();
+    }
+    
+    public SortedMap<String, Element> getElements(){
+        return elements;
+    }
+    
     private static SortedMap<String, Element> elements = new TreeMap<>();
-    private Favorites favorites;
     private ElementView element;
+    private static DefaultListModel<String> m_favourites = new DefaultListModel();
     private static DefaultListModel<String> m;
-    private static final double[] massNumbers = {1.01, 22, 6.94, 9.01, 10.81, 12.01, 14, 15.99, 18.99, 20.1, 22.98, 24.3, 26.98, 28.08, 30.97, 32.06, 35.45, 
+    private static final String[] names = {"Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon",
+        "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", 
+        "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt",  "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", 
+        "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum",  "Technetium", "Ruthenium", "Rhodium", "Palladium", 
+        "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Caesium", "Barium", "Lanthanum", "Cerium","Praseodymium", 
+        "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", 
+        "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", 
+        "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", 
+        "Americium", "Curium", "Berkelium", "Californium", "Einstenium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", 
+        "Dubnium", "Seborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roengtenium", "Copernicium", "Nihonium", "Flerovium", 
+        "Moscovium", "Livermorium", "ennessine", "Oganesson"};
+    private static final double[] massNumbers = {1.01, 2, 6.94, 9.01, 10.81, 12.01, 14, 15.99, 18.99, 20.1, 22.98, 24.3, 26.98, 28.08, 30.97, 32.06, 35.45, 
             39.94, 39.09, 40.07, 44.95, 47.86, 50.94, 51.99, 54.94, 55.84, 58.93, 58.69, 63.55, 65.4, 69.72, 72.64, 74.92, 78.96, 79.9, 83.8, 85.47, 87.62, 
             88.9, 91.22, 92.91, 95.94, 98.91, 101.07, 102.91, 106.42, 107.87, 112.41, 114.82, 118.71, 121.76, 127.6, 126.9, 131.29, 132.91, 137.3, 138.9, 140.11, 
             140.90, 144.24, 144.91, 150.36, 151.96, 157.25, 158.92, 162.5, 164.93, 167.26, 168.93, 173.04, 174.96, 178.49, 180.94, 183.84, 186.2, 190.23, 192.22, 
@@ -176,11 +221,17 @@ public class MainWindow extends javax.swing.JFrame {
             "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra", "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", 
             "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"};
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JButton Favourites;
-    private static javax.swing.JLabel Group;
     private static javax.swing.JButton Visualize;
+    private static javax.swing.JList<String> favourites;
     private static javax.swing.JLabel jLabel1;
     private static javax.swing.JList<String> jList2;
+    private static javax.swing.JMenu jMenu1;
+    private static javax.swing.JMenu jMenu2;
+    private static javax.swing.JMenuBar jMenuBar1;
+    private static javax.swing.JMenuItem jMenuItem1;
+    private static javax.swing.JMenuItem jMenuItem2;
+    private static javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JScrollPane jScrollPane2;
+    private static javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

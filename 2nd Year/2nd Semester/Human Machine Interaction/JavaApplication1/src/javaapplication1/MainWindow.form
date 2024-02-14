@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenu1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+W"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Close"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenu2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Edit"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+F"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Add to favourites"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Menu>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
   <SyntheticProperties>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -24,30 +67,20 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="96" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="226" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="316" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Favourites" min="-2" max="-2" attributes="0"/>
-                                  <Component id="Visualize" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
-                              <Component id="Group" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="162" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jTabbedPane1" min="-2" pref="189" max="-2" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="Visualize" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="163" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="320" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -56,18 +89,11 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="Favourites" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                      <Component id="Group" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
-                      <Component id="Visualize" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jScrollPane2" min="-2" pref="248" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="109" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="jTabbedPane1" pref="292" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="Visualize" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -82,15 +108,6 @@
         <Property name="text" type="java.lang.String" value="Welcome to this periodic table visualizer"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="Favourites">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Favourites"/>
-        <Property name="toolTipText" type="java.lang.String" value=""/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FavouritesActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="Visualize">
       <Properties>
         <Property name="text" type="java.lang.String" value="Visualize"/>
@@ -100,147 +117,66 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VisualizeActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="Group">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Group:"/>
-      </Properties>
-    </Component>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane2">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JList" name="jList2">
-          <Properties>
-            <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-              <StringArray count="118">
-                <StringItem index="0" value="Hydrogen"/>
-                <StringItem index="1" value="Helium"/>
-                <StringItem index="2" value="Lithium"/>
-                <StringItem index="3" value="Beryllium"/>
-                <StringItem index="4" value="Boron"/>
-                <StringItem index="5" value="Carbon"/>
-                <StringItem index="6" value="Nitrogen"/>
-                <StringItem index="7" value="Oxygen"/>
-                <StringItem index="8" value="Fluorine"/>
-                <StringItem index="9" value="Neon"/>
-                <StringItem index="10" value="Sodium"/>
-                <StringItem index="11" value="Magnesium"/>
-                <StringItem index="12" value="Aluminium"/>
-                <StringItem index="13" value="Silicon"/>
-                <StringItem index="14" value="Phosphorus"/>
-                <StringItem index="15" value="Sulfur"/>
-                <StringItem index="16" value="Chlorine"/>
-                <StringItem index="17" value="Argon"/>
-                <StringItem index="18" value="Potassium"/>
-                <StringItem index="19" value="Calcium"/>
-                <StringItem index="20" value="Scandium"/>
-                <StringItem index="21" value="Titanium"/>
-                <StringItem index="22" value="Vanadium"/>
-                <StringItem index="23" value="Chromium"/>
-                <StringItem index="24" value="Manganese"/>
-                <StringItem index="25" value="Iron"/>
-                <StringItem index="26" value="Cobalt"/>
-                <StringItem index="27" value="Nickel"/>
-                <StringItem index="28" value="Copper"/>
-                <StringItem index="29" value="Zinc"/>
-                <StringItem index="30" value="Gallium"/>
-                <StringItem index="31" value="Germanium"/>
-                <StringItem index="32" value="Arsenic"/>
-                <StringItem index="33" value="Selenium"/>
-                <StringItem index="34" value="Bromine"/>
-                <StringItem index="35" value="Krypton"/>
-                <StringItem index="36" value="Rubidium"/>
-                <StringItem index="37" value="Strontium"/>
-                <StringItem index="38" value="Yttrium"/>
-                <StringItem index="39" value="Zirconium"/>
-                <StringItem index="40" value="Niobium"/>
-                <StringItem index="41" value="Molybdenum"/>
-                <StringItem index="42" value="Technetium"/>
-                <StringItem index="43" value="Ruthenium"/>
-                <StringItem index="44" value="Rhodium"/>
-                <StringItem index="45" value="Palladium"/>
-                <StringItem index="46" value="Silver"/>
-                <StringItem index="47" value="Cadmium"/>
-                <StringItem index="48" value="Indium"/>
-                <StringItem index="49" value="Tin"/>
-                <StringItem index="50" value="Antimony"/>
-                <StringItem index="51" value="Tellurium"/>
-                <StringItem index="52" value="Iodine"/>
-                <StringItem index="53" value="Xenon"/>
-                <StringItem index="54" value="Caesium"/>
-                <StringItem index="55" value="Barium"/>
-                <StringItem index="56" value="Lanthanum"/>
-                <StringItem index="57" value="Cerium"/>
-                <StringItem index="58" value="Praseodymium"/>
-                <StringItem index="59" value="Neodymium"/>
-                <StringItem index="60" value="Promethium"/>
-                <StringItem index="61" value="Samarium"/>
-                <StringItem index="62" value="Europium"/>
-                <StringItem index="63" value="Gadolinium"/>
-                <StringItem index="64" value="Terbium"/>
-                <StringItem index="65" value="Dysprosium"/>
-                <StringItem index="66" value="Holmium"/>
-                <StringItem index="67" value="Erbium"/>
-                <StringItem index="68" value="Thulium"/>
-                <StringItem index="69" value="Ytterbium"/>
-                <StringItem index="70" value="Lutetium"/>
-                <StringItem index="71" value="Hafnium"/>
-                <StringItem index="72" value="Tantalum"/>
-                <StringItem index="73" value="Tungsten"/>
-                <StringItem index="74" value="Rhenium"/>
-                <StringItem index="75" value="Osmium"/>
-                <StringItem index="76" value="Iridium"/>
-                <StringItem index="77" value="Platinum"/>
-                <StringItem index="78" value="Gold"/>
-                <StringItem index="79" value="Mercury"/>
-                <StringItem index="80" value="Thallium"/>
-                <StringItem index="81" value="Lead"/>
-                <StringItem index="82" value="Bismuth"/>
-                <StringItem index="83" value="Polonium"/>
-                <StringItem index="84" value="Astatine"/>
-                <StringItem index="85" value="Radon"/>
-                <StringItem index="86" value="Francium"/>
-                <StringItem index="87" value="Radium"/>
-                <StringItem index="88" value="Actinium"/>
-                <StringItem index="89" value="Thorium"/>
-                <StringItem index="90" value="Protactinium"/>
-                <StringItem index="91" value="Uranium"/>
-                <StringItem index="92" value="Neptunium"/>
-                <StringItem index="93" value="Plutonium"/>
-                <StringItem index="94" value="Americium"/>
-                <StringItem index="95" value="Curium"/>
-                <StringItem index="96" value="Berkelium"/>
-                <StringItem index="97" value="Californium"/>
-                <StringItem index="98" value="Einstenium"/>
-                <StringItem index="99" value="Fermium"/>
-                <StringItem index="100" value="Mendelevium"/>
-                <StringItem index="101" value="Nobelium"/>
-                <StringItem index="102" value="Lawrencium"/>
-                <StringItem index="103" value="Rutherfordium"/>
-                <StringItem index="104" value="Dubnium"/>
-                <StringItem index="105" value="Seborgium"/>
-                <StringItem index="106" value="Bohrium"/>
-                <StringItem index="107" value="Hassium"/>
-                <StringItem index="108" value="Meitnerium"/>
-                <StringItem index="109" value="Darmstadtium"/>
-                <StringItem index="110" value="Roengtenium"/>
-                <StringItem index="111" value="Copernicium"/>
-                <StringItem index="112" value="Nihonium"/>
-                <StringItem index="113" value="Flerovium"/>
-                <StringItem index="114" value="Moscovium"/>
-                <StringItem index="115" value="Livermorium"/>
-                <StringItem index="116" value="Tennessine"/>
-                <StringItem index="117" value="Oganesson"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
-        </Component>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="All Elements">
+                <Property name="tabTitle" type="java.lang.String" value="All Elements"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JList" name="jList2">
+              <Properties>
+                <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+                <Property name="selectionMode" type="int" value="0"/>
+                <Property name="toolTipText" type="java.lang.String" value="&quot;Hydrogen&quot;, Helium, Lithium, Beryllium, Boron, Carbon, Nitrogen, Oxygen, Fluorine, Neon, Sodium, Magnesium,          Aluminium, Silicon, Phosphorus, Sulfur, Chlorine, Argon, Potassium, Calcium, Scandium, Titanium, Vanadium, Chromium, Manganese, Iron, Cobalt,          Nickel, Copper, Zinc, Gallium, Germanium, Arsenic, Selenium, Bromine, Krypton, Rubidium, Strontium, Yttrium, Zirconium, Niobium, Molybdenum,          Technetium, Ruthenium, Rhodium, Palladium, Silver, Cadmium, Indium, Tin, Antimony, Tellurium, Iodine, Xenon, Caesium, Barium, Lanthanum, Cerium,          Praseodymium, Neodymium, Promethium, Samarium, Europium, Gadolinium, Terbium, Dysprosium, Holmium, Erbium, Thulium, Ytterbium, Lutetium, Hafnium,          Tantalum, Tungsten, Rhenium, Osmium, Iridium, Platinum, Gold, Mercury, Thallium, Lead, Bismuth, Polonium, Astatine, Radon, Francium, Radium, Actinium,          Thorium, Protactinium, Uranium, Neptunium, Plutonium, Americium, Curium, Berkelium, Californium, Einstenium, Fermium, Mendelevium, Nobelium,          Lawrencium, Rutherfordium, Dubnium, Seborgium, Bohrium, Hassium, Meitnerium, Darmstadtium, Roengtenium, Copernicium, Nihonium, Flerovium, Moscovium, Livermorium, Tennessine, Oganesson"/>
+                <Property name="valueIsAdjusting" type="boolean" value="true"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Favourite">
+                <Property name="tabTitle" type="java.lang.String" value="Favourite"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JList" name="favourites">
+              <Properties>
+                <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+                <Property name="selectionMode" type="int" value="0"/>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>
