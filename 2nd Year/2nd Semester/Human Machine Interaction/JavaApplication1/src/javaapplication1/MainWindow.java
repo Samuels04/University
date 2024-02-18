@@ -18,9 +18,10 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         setLocationRelativeTo(null);
-        favourites.setModel(m_favourites);
         element = new ElementView(this);
-        for(int i = 1; i <= m.getSize(); i++){
+        jList2.setModel(m);
+        favourites = new Favourites(this);
+        for(int i = 1; i <= names.length; i++){
             elements.put(names[i - 1], new Element(names[i - 1], i, massNumbers[i-1], symbols[i-1]));
             m.addElement(names[ i - 1]);
         }
@@ -38,11 +39,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         Visualize = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList2 = new javax.swing.JList<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        favourites = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -68,12 +67,15 @@ public class MainWindow extends javax.swing.JFrame {
         jList2.setValueIsAdjusting(true);
         jScrollPane2.setViewportView(jList2);
 
-        jTabbedPane1.addTab("All Elements", jScrollPane2);
-
-        favourites.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(favourites);
-
-        jTabbedPane1.addTab("Favourite", jScrollPane1);
+        jButton1.setBackground(new java.awt.Color(102, 102, 255));
+        jButton1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Favourites");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
 
@@ -107,29 +109,36 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(72, 72, 72)
-                .addComponent(jLabel1)
-                .addContainerGap(96, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Visualize)
-                        .addGap(53, 53, 53)))
-                .addGap(320, 320, 320))
+                .addContainerGap(90, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(168, 168, 168)
+                        .addComponent(jButton1)
+                        .addGap(34, 34, 34)))
+                .addGap(131, 131, 131))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(383, 383, 383)
+                .addComponent(Visualize)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Visualize)
-                .addGap(33, 33, 33))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(Visualize))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -145,8 +154,13 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        this.addFavourite(elements.get(jList2.getSelectedValue()));
+        elements.get(jList2.getSelectedValue()).favourite();
+        favourites.addFavourite(elements.get(jList2.getSelectedValue()));
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        favourites.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -185,19 +199,25 @@ public class MainWindow extends javax.swing.JFrame {
 
     }
     
-    protected void addFavourite(Element element){
-        m_favourites.addElement(element.getName());
-        element.favourite();
+    public void view(Element e){
+        element.setElement(e);
+        if(!element.isVisible())
+            element.setVisible(true);
     }
+    
+    public Element getElement(String name){
+        return elements.get(name);
+    }
+      
     
     public SortedMap<String, Element> getElements(){
         return elements;
     }
     
     private static SortedMap<String, Element> elements = new TreeMap<>();
-    private ElementView element;
-    private static DefaultListModel<String> m_favourites = new DefaultListModel();
-    private static DefaultListModel<String> m;
+    private static ElementView element;
+    private static Favourites favourites;
+    private static DefaultListModel<String> m = new DefaultListModel();
     private static final String[] names = {"Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon",
         "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", 
         "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt",  "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", 
@@ -222,7 +242,7 @@ public class MainWindow extends javax.swing.JFrame {
             "Db", "Sg", "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"};
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private static javax.swing.JButton Visualize;
-    private static javax.swing.JList<String> favourites;
+    private static javax.swing.JButton jButton1;
     private static javax.swing.JLabel jLabel1;
     private static javax.swing.JList<String> jList2;
     private static javax.swing.JMenu jMenu1;
@@ -230,8 +250,6 @@ public class MainWindow extends javax.swing.JFrame {
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem1;
     private static javax.swing.JMenuItem jMenuItem2;
-    private static javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JScrollPane jScrollPane2;
-    private static javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }
