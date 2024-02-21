@@ -18,6 +18,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         setLocationRelativeTo(null);
+        cChooser = new ColourChooser();
         element = new ElementView(this);
         jList2.setModel(m);
         favourites = new Favourites(this);
@@ -46,6 +47,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,6 +94,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
+        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem2.setText("Add to favourites");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -115,7 +125,7 @@ public class MainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(168, 168, 168)
+                        .addGap(147, 147, 147)
                         .addComponent(jButton1)
                         .addGap(34, 34, 34)))
                 .addGap(131, 131, 131))
@@ -161,6 +171,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         favourites.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        cChooser.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -214,6 +228,7 @@ public class MainWindow extends javax.swing.JFrame {
         return elements;
     }
     
+    private static ColourChooser cChooser;
     private static SortedMap<String, Element> elements = new TreeMap<>();
     private static ElementView element;
     private static Favourites favourites;
@@ -250,6 +265,7 @@ public class MainWindow extends javax.swing.JFrame {
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem1;
     private static javax.swing.JMenuItem jMenuItem2;
+    private static javax.swing.JMenuItem jMenuItem3;
     private static javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
