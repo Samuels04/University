@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package javaapplication1;
+import java.awt.Color;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.swing.DefaultListModel;
@@ -18,7 +19,8 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         setLocationRelativeTo(null);
-        cChooser = new ColourChooser();
+        cChooser = new ColourChooser(this);
+        cChooser.setVisible(false);
         element = new ElementView(this);
         jList2.setModel(m);
         favourites = new Favourites(this);
@@ -94,7 +96,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.setText("Colour palette");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem3ActionPerformed(evt);
@@ -211,6 +213,10 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }); 
 
+    }
+    
+    public void setColour(Color c){
+        this.getContentPane().setBackground(c);
     }
     
     public void view(Element e){
