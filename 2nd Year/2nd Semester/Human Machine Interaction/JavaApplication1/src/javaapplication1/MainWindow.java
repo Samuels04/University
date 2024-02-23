@@ -217,6 +217,8 @@ public class MainWindow extends javax.swing.JFrame {
     
     public void setColour(Color c){
         this.getContentPane().setBackground(c);
+        element.getContentPane().setBackground(c);
+        favourites.getContentPane().setBackground(c);
     }
     
     public void view(Element e){

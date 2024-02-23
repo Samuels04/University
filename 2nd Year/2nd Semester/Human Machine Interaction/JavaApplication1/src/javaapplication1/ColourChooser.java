@@ -15,6 +15,7 @@ public class ColourChooser extends javax.swing.JFrame {
      */
     public ColourChooser() {
         initComponents();
+        dialog = new ColourDialog(this, true);
     }
     
     public ColourChooser(MainWindow m){
@@ -68,7 +69,9 @@ public class ColourChooser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.main.setColour(jColorChooser1.getColor());
+        boolean b = dialog.showDialog("Confirmation", "Are you sure this is the colour you want?");
+        if(b)
+            this.main.setColour(jColorChooser1.getColor());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -107,6 +110,7 @@ public class ColourChooser extends javax.swing.JFrame {
     }
     
     private MainWindow main;
+    private ColourDialog dialog;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JColorChooser jColorChooser1;
