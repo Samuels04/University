@@ -14,17 +14,21 @@ public class Element {
     private int atomicNumber;
     private double massNumber;
     private boolean favourite;
+    private String latinName;
+    private int yearDiscovered;
     //private String group;
     
     
     
-    public Element(String name, int atomicNumber, double massNumber, String symbol) {
+    public Element(String name, int atomicNumber, double massNumber, String symbol, String latinName, int yearDiscovered) {
     
         this.name = name;
         this.symbol = symbol;
         this.atomicNumber = atomicNumber;
         this.massNumber = massNumber;
         this.favourite = false;
+        this.latinName = latinName;
+        this.yearDiscovered = yearDiscovered;
     
     }
     
@@ -40,6 +44,22 @@ public class Element {
     public String getSymbol(){
         return this.symbol;
     }
+    
+    public int getYearDiscovered(){
+        return this.yearDiscovered;
+    }
+    
+    public String getYearDiscoveredString(){
+        if(this.yearDiscovered < 0){
+            return String.format("%d B.C", Math.abs(this.yearDiscovered));
+        }
+        return String.format("%d A.D", this.yearDiscovered);
+    }
+    
+    public String getLatinName(){
+        return this.latinName;
+    }
+    
     public void favourite(){
         favourite = true;
     }

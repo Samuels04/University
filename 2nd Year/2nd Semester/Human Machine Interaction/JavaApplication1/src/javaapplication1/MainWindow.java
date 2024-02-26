@@ -19,16 +19,33 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         setLocationRelativeTo(null);
+        
         cChooser = new ColourChooser(this);
         cChooser.setVisible(false);
-        element = new ElementView(this);
-        jList2.setModel(m);
-        favourites = new Favourites(this);
-        for(int i = 1; i <= names.length; i++){
-            elements.put(names[i - 1], new Element(names[i - 1], i, massNumbers[i-1], symbols[i-1]));
-            m.addElement(names[ i - 1]);
-        }
         
+        element = new ElementView(this);
+        
+        jList2.setModel(m);
+        
+        favourites = new Favourites(this);
+        
+        if(names.length == 118 && massNumbers.length == 118 && symbols.length == 118 && latinNames.length == 118 && yearDiscovered.length == 118){
+            for(int i = 1; i <= 118; i++){
+                String name = names[i-1];
+                double mass = massNumbers[i-1];
+                String symbol = symbols[i-1];
+                String latin = latinNames[i-1];
+                int year = yearDiscovered[i-1];
+                elements.put(name, new Element(name, i, mass, symbol, latin, year));
+                m.addElement(name);
+            }
+        }
+        System.out.println(names.length);
+        System.out.println(massNumbers.length);
+        System.out.println(symbols.length);
+        System.out.println(latinNames.length);
+        System.out.println(yearDiscovered.length);
+        initial = new InitialWindow(this);
     }
 
     /**
@@ -208,7 +225,7 @@ public class MainWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainWindow().setVisible(true);
+                new MainWindow().setVisible(false);
                 
             }
         }); 
@@ -220,6 +237,8 @@ public class MainWindow extends javax.swing.JFrame {
         element.getContentPane().setBackground(c);
         favourites.getContentPane().setBackground(c);
     }
+    
+    
     
     public void view(Element e){
         element.setElement(e);
@@ -236,6 +255,7 @@ public class MainWindow extends javax.swing.JFrame {
         return elements;
     }
     
+    private static InitialWindow initial;
     private static ColourChooser cChooser;
     private static SortedMap<String, Element> elements = new TreeMap<>();
     private static ElementView element;
@@ -252,12 +272,31 @@ public class MainWindow extends javax.swing.JFrame {
         "Americium", "Curium", "Berkelium", "Californium", "Einstenium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", 
         "Dubnium", "Seborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roengtenium", "Copernicium", "Nihonium", "Flerovium", 
         "Moscovium", "Livermorium", "ennessine", "Oganesson"};
+    
+    private static final String[] latinNames = {"Hydrogenium","Helium", "Same", "Same", "Borum", "Carbonium", "Nitrogenium", "Oxygenium", 
+        "Fluorum", "Same", "Natrium", "Same", "Same", "Silicium", "Same", "Sulphuris", "Chlorum", "Same", "Kalium", "Same", 
+        "Same", "Same", "Same", "Same", "Manganum", "Ferrum", "Cobaltum", "Niccolum", "Cuprum", "Zincum", "Same", "Same", 
+        "Arsenicum", "Same", "Bromum", "Same", "Same", "Same", "Same", "Same", "Same", "Molybdaenum", "Same", "Same", "Same", 
+        "Same", "Argentum", "Same", "Same", "Stannum", "Stibium", "Same", "Iodium", "Same", "Same", "Same", "Same", "Same", 
+        "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Wolframium", "Same", 
+        "Same", "Same", "Same", "Aurum", "Hydrargyrum", "Same", "Plumbum", "Bisemutum", "Same", "Astatum", "Same", "Same", "Same", "Same", "Same", 
+        "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", 
+        "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same", "Same"};
+    
+    private static final int[] yearDiscovered = {1766, 1868, 1817, 1798, 1808, -3750, 1772, 1771, 1810, 1898, 1807, 1755, 1825, 1823, 1669, -2000,
+        1774, 1894, 1807, 1808, 1879, 1791, 1801, 1794, 1774, -5000, 1735, 1751, -9000, -1000, 1875, 1886, -815, 1817, 1826, 1898, 1861, 1787, 1794,
+        1789, 1801, 1778, 1937, 1844, 1804, 1803, -5000, 1817, 1863, -3500, -815, 1782, 1811, 1898, 1860, 1774, 1839, 1803, 1885, 1885, 1942, 1879, 1896, 
+        1886, 1843, 1886, 1878, 1843, 1879, 1878, 1906, 1922, 1802, 1781, 1908, 1803, 1803, 1735, -6000, -1500, 1861, -7000, -1000, 1898, 1940, 1899, 
+        1939, 1898, 1902, 1829, 1913, 1789, 1940, 1940, 1944, 1944, 1949, 1950, 1952, 1952, 1955, 1965, 1961, 1969, 1970, 1974, 1981, 1984, 1982, 1994, 1994,
+        1996, 2003, 1998, 2003, 2000, 2010, 2002};
+    
     private static final double[] massNumbers = {1.01, 2, 6.94, 9.01, 10.81, 12.01, 14, 15.99, 18.99, 20.1, 22.98, 24.3, 26.98, 28.08, 30.97, 32.06, 35.45, 
             39.94, 39.09, 40.07, 44.95, 47.86, 50.94, 51.99, 54.94, 55.84, 58.93, 58.69, 63.55, 65.4, 69.72, 72.64, 74.92, 78.96, 79.9, 83.8, 85.47, 87.62, 
             88.9, 91.22, 92.91, 95.94, 98.91, 101.07, 102.91, 106.42, 107.87, 112.41, 114.82, 118.71, 121.76, 127.6, 126.9, 131.29, 132.91, 137.3, 138.9, 140.11, 
             140.90, 144.24, 144.91, 150.36, 151.96, 157.25, 158.92, 162.5, 164.93, 167.26, 168.93, 173.04, 174.96, 178.49, 180.94, 183.84, 186.2, 190.23, 192.22, 
             195.08, 196.96, 200.59, 204.38, 207.2, 208.98, 208.97, 209.99, 222.02, 223, 226, 227.03, 232.04, 231.04, 238.03, 237.05, 244.06, 243.06, 247.07, 247.08, 
             251.08, 252.08, 257.09, 258.09, 259.1, 266.12, 261.11, 262.12, 263.12, 262.13, 269, 278, 281.16, 281.17, 285.17, 282.18, 287.19, 288.19, 288.18, 294.21, 294.21};
+    
     private static final String[] symbols = {"H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti", "V", 
             "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr", "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", 
             "Sb", "Te", "I", "Xe", "Cs", "Ba", "La", "Ce", "Pr", "Ne", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tu", "Yb", "Lu", "Hf", "Ta", "W", "Re", "Os", "Ir", 
