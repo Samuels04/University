@@ -2,7 +2,7 @@
 ; The module racjet/function should be imported.
 
 (require mzlib/compat racket/function)
-(require srfi/1)
+
 
 
 ;;;------------------------------------------------------------------------------------------------------------------------------------
@@ -277,7 +277,7 @@
 
 (define (search key data)
 
-  (map (curry info key) data)
+  (map (lambda (x) (info key x)) data)
 
 )
 
@@ -302,14 +302,14 @@
 
 (define (info+ keys person)
 
-  (map (curryr info person) keys)
+  (map (lambda (key) (info key person)) keys)
   
 )
 
 
 (define (search+ l-keys data)
 
- (map (curry info+ l-keys) data)
+ (map (lambda (x) (info+ l-keys x)) data)
 
 )
 
@@ -334,23 +334,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 
-(define (index-of item lst)
-  (let loop ((lst lst) (index 0))
-   (cond ((null? lst) #f)
-         ((equal? item (car lst)) index)
-         (else (loop (cdr lst) (+ 1 index))))))
+;(displayln "\npresent (pairs of key-value):")
+;(present Data '(surnames name age sex studies is_working))
 
 
-(define (present data key-order)
-  (define (compare-keys a b)
-    (< (index-of (car a) key-order) (index-of (car b) key-order)))
-  (map (curryr sort compare-keys) data))
-
-
-
-
-(displayln "\npresent (pairs of key-value):")
-(present Data '(surnames name age sex studies is_working))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; present(data, key-order)
@@ -360,14 +347,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
 
-(define (present data key-order)
-  (define (compare-keys a b)
-    (< (index-of (car a) key-order) (index-of (car b) key-order)))
-  (map (curry map cadr) (map (curryr sort compare-keys) data)))
 
-
-(displayln "\npresent (only values within one list):")
-(present Data '(name surnames age sex studies is_working))
+;(displayln "\npresent (only values within one list):")
+;(present Data '(name surnames age sex studies is_working)
 ;
 ; This should output:
 ;   ((LUIS GARCIA PEREZ 26 V (INFORMATICA MEDICINA) #t)
