@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>HTML form without Java</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1> HTML 5 Form Example </h1>
+        <form name="htmlForm">
+            <fieldset>
+                <legend> Information </legend>
+                <p>
+                    Name: <input name="username" type="text" required="">
+                    Surname: <input name="usersurname" type="text" required="">
+                </p>
+                <p>
+                    Birth date: <input name="userBirthday" type="date">
+                </p>
+                <p>
+                    ID: <input name="userid" type="text" size="9">
+                </p>
+                <p>
+                    <input name="userType" type="radio" value="Student"> Student<br>
+                    <input name="userType" type="radio" value="Teacher"> Teacher<br>
+                </p>
+                <p>
+                    Comments
+                    <textarea name="Comments">Please type your comments here</textarea>
+                </p>
+            </fieldset>
+            <fieldset>
+                <legend> Preferences </legend>
+                <p>Pick a number  Pick a colour</p>
+                <p>
+                    <select name="numberChoice">
+                        <optgroup label="Few">
+                            <option value="one"> One </option>
+                            <option value="two"> Two </option>
+                            <option value="three"> Three </option>
+                        </optgroup>
+                        <optgroup label="Many">
+                            <option value="onehundred"> A Hundred </option>
+                            <option value="twohundred"> 2 Hundred </option>
+                            <option value="threehundred"> 3 Hundred </option>
+                        </optgroup>
+                    </select>
+                    <select name="colourChoice">
+                        <optgroup label="Basic">
+                            <option value="red"> Red </option>
+                            <option value="green"> Green </option>
+                            <option value="blue"> Blue </option>
+                        </optgroup>
+                        <optgroup label="Miscellaneous">
+                            <option value="white"> White </option>
+                            <option value="gray"> Gray </option>
+                            <option value="black"> Black </option>
+                        </optgroup>
+                    </select>
+                </p>
+            </fieldset>
+        </form>
+    </body>
+</html>
