@@ -1,0 +1,15 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : 22 Mar 2024, 18:24:05
+    Author     : Samuel
+*/
+
+table.Directory {font-family: Arial; border: black 1px solid}
+table.Directory>caption {font-size: 120%; font-weight: bold}
+table.Directory td {border: gray 2px solid}
+table.Directory tr:first-of-type {font-weight: bold}
+table.Directory tr:not(:first-child):hover {background: rgb(255, 200, 200)}
+table.Directory a:hover {font-weight: bold}
