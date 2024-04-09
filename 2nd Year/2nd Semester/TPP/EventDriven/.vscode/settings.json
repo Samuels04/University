@@ -1,0 +1,12 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/edp_library.jar",
+        ],
+        "sources": {
+            "lib/edp_library.jar": "lib/edp_library.jar"
+        }
+    }
+}
