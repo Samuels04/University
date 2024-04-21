@@ -136,6 +136,41 @@ public class WordleSOO implements IWordle {
 		}
 		
 		return result.toString();
+<<<<<<< HEAD
+=======
+		
+		// THIS OPERATION IS NOT COMPLETE.
+
+		// HELP (STEPS) TO FOLLOW TO DETECT DIFFERENCES CORRECTLY
+		// To report differences correctly, two passes, two loops, are necessary:
+
+		// In the first loop, we count the number of occurrences of
+		// each character in the secret word and the number of occurrences of each
+		// character WELL PLACED in the proposed word
+		// We will need these occurrences to correctly perform the second loop
+
+		// In the second loop, we generate the string of differences:
+		// Character in its place --> "="
+		// Character does not exist --> "X"
+		// Character exists and the number of occurrences up to now + Number of
+		// occurrences well placed that come after
+		// does not exceed the total number of occurrences in the word to be guessed -->
+		// "C"
+		// Character exists and the number of occurrences up to now + Number of
+		// occurrences well placed that come after
+		// EXCEEDS the total number of occurrences in the word to be guessed --> "X"
+
+		// Two passes are necessary BECAUSE WELL PLACED occurrences MUST BE PRIORITIZED
+		// over occurrences changed in position.
+
+		// FIRST PASS: We count the occurrences...
+
+		// TO BE COMPLETED
+
+		// SECOND PASS: We generate the string of differences
+
+		// TO BE COMPLETED
+>>>>>>> 3f6b03c83fd2772c0b162f715262fcbf4e1c81c1
 	}
 
 	private boolean validWord(String word) {
