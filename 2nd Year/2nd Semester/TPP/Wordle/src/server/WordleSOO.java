@@ -20,65 +20,31 @@ public class WordleSOO implements IWordle {
 	static final int MAX_ATTEMPTS = 5;
 	
 	
-	int state = 0;
+	private int state;
 
+	private int clientID;
 	
 	int numberAttempts = 0;
 	// Area of data
 
 	// List of possible words to guess
 	// All words will be of size IWordle.WORD_SIZE
-	List<String> wordsGuess;
+	static List<String> wordsGuess = initializeDictionary();
 	
 	String secretWord;
 
 	// Constructor
 	public WordleSOO(int id) throws DictionaryError {
-		String dict_path = "src/main/resources/english-words.txt";
-		String word;
-		int word_size;
-
-		// THIS CONSTRUCTOR IS NOT COMPLETE. COMPLETE IT
-
-		// Create the list of words to guess
-		this.wordsGuess = new ArrayList<>(5000);
-
-		// Open the dictionary file to store the words of size IWordle.WORD_SIZE
-		// If the file cannot be opened or if the reading fails, an exception will be
-		// sent (DictionaryError)
-		try {
-			Path path = Paths.get(dict_path);
-			BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-
-			word = reader.readLine();
-
-			while (word != null) {
-				// Get the length of the word
-				word_size = word.length();
-
-				// Check that the word does not have strange characters and that it has the
-				// appropriate size
-				if (word_size == IWordle.WORD_SIZE && this.validWord(word)) {
-					// Get the word in uppercase and add it to the list
-					this.wordsGuess.add(word.toUpperCase());
-				}
-
-				// Read the next word from the file
-				word = reader.readLine();
-			}
-
-			// Close the file
-			reader.close();
-		} catch (FileNotFoundException e) {
-			throw new DictionaryError("The file with the words of the dictionary has not been found");
-		} catch (IOException e) {
-			throw new DictionaryError("Error while reading the file with the words of the dictionary.");
-		}
+		this.clientID = id;
+		this.state = 0;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public String obtainDifferences(String word) throws PA_Exception, WrongLength, WrongFormat {
+		
+		if(state != 1)
+			throw new PA_Exception("This cannot be done");
+		
 		
 		String wordUppercase = word.toUpperCase();
 		
@@ -91,7 +57,7 @@ public class WordleSOO implements IWordle {
 		
 		Map<Character, Integer> occurencesWell = new HashMap<Character, Integer>();
 		
-		for(int i = 0; i <= word.length(); i++) {
+		for(int i = 0; i < word.length(); i++) {
 			
 			char currentChar = wordUppercase.charAt(i);
 			
@@ -107,11 +73,12 @@ public class WordleSOO implements IWordle {
 					occurencesWell.put(currentChar, 1);
 		}
 		
-		for(int i = 0; i <= word.length(); i++) {
+		for(int i = 0; i < word.length(); i++) {
 			
 			char currentChar = wordUppercase.charAt(i);
 			
-			if(!occurences.containsKey(currentChar) || occurences.get(currentChar) == 0 || occurencesWell.get(currentChar) == 0)
+			
+			if(!occurences.containsKey(currentChar) || occurences.get(currentChar) == 0 || (occurencesWell.containsKey(currentChar) && occurencesWell.get(currentChar) == 0))
 				
 				result.append('X');
 			
@@ -132,6 +99,8 @@ public class WordleSOO implements IWordle {
 				occurences.put(currentChar, occurences.get(currentChar) - 1);
 				occurencesWell.put(currentChar, occurencesWell.get(currentChar) - 1);
 			}
+			
+			state = 2;
 			
 		}
 		
@@ -173,7 +142,7 @@ public class WordleSOO implements IWordle {
 >>>>>>> 3f6b03c83fd2772c0b162f715262fcbf4e1c81c1
 	}
 
-	private boolean validWord(String word) {
+	private static boolean validWord(String word) {
 		return word.matches("[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+");
 	}
 
@@ -195,20 +164,85 @@ public class WordleSOO implements IWordle {
 		numberAttempts++;
 		Random rand = new Random();
 		
-		int secretWordIndex = rand.nextInt(0, this.wordsGuess.size());
-		this.secretWord = this.wordsGuess.get(secretWordIndex);
+		int secretWordIndex = rand.nextInt(0, wordsGuess.size());
+		this.secretWord = wordsGuess.get(secretWordIndex);
+		
+		this.state = 1;
 		
 	}
 
 	@Override
 	public int endedGame(String word) throws PA_Exception, WrongLength, WrongFormat {
-		// TODO Auto-generated method stub
+		if(word.length() != WORD_SIZE) {
+			throw new WrongLength(String.format("The word must be %d characters long", WORD_SIZE));
+		}
+		if(!validWord(word))
+			throw new WrongFormat("This word is not valid");
+		
+		if(word.equals(secretWord)) {
+			state  = 3;
+			return 1;
+		} else {
+			if(numberAttempts == MAX_ATTEMPTS) {
+				state = 3;
+				return 2;
+			}
+		}
+		
+		state = 1;
 		return 0;
 	}
 
 	@Override
 	public String requestWord() throws PA_Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if(state != 3)
+			throw new PA_Exception("You cannot do this");
+		return secretWord;
+	}
+
+	static private List<String> initializeDictionary() {
+		String file_path = "src/main/resources/english-words.txt";
+		String word;
+		int word_len;
+		List<String> word_dict;
+
+		// Create the list of words to guess
+		word_dict = new ArrayList<>(5000);
+
+		// Open the dictionary file to store the words of size IWordle.WORD_SIZE
+		// If the file cannot be opened or if the reading fails, the method will return
+		// null
+		try {
+			Path path = Paths.get(file_path);
+			BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+
+			word = reader.readLine();
+
+			while (word != null) {
+				// Get the length of the word
+				word_len = word.length();
+
+				// Check that the word does not have strange characters and that it has the
+				// appropriate size
+				if (word_len == IWordle.WORD_SIZE && WordleSOO.validWord(word)) {
+					// Get the word in uppercase and add it to the list
+					word_dict.add(word.toUpperCase());
+				}
+
+				// Read the next word from the file
+				word = reader.readLine();
+			}
+
+			// Close the file
+			reader.close();
+		} catch (FileNotFoundException e) {
+			// Return null in order to indicate that the reading of the dictionary failed
+			word_dict = null;
+		} catch (IOException e) {
+			// Return null in order to indicate that the reading of the dictionary failed
+			word_dict = null;
+		}
+
+		return word_dict;
 	}
 }
