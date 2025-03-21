@@ -6,10 +6,15 @@ import java.util.*;
 public class App {
     public static void main(String[] args) throws Exception {
         final String file = "C:\\Users\\samue\\Code\\University\\3rd Year\\AIKE\\Lab 1\\Lab 1\\src\\connection_graph.csv";
-        GraphTransport transportGraph = new GraphTransport();
+        Graph transportGraph;
         List<Segment> segments = new ArrayList<>();
-        try {
 
+
+    }
+
+    static void readFile(String file, Graph transportGraph) {
+
+        try {
             // Create an object of filereader
             // class with CSV file as a parameter.
             FileReader filereader = new FileReader(file);
@@ -39,13 +44,18 @@ public class App {
                 //Add the segment and the stops to the graph
                 transportGraph.addVertex(segment.getStartStop());
                 transportGraph.addVertex(segment.getEndStop());
-                transportGraph.addEdge(segment);
+                if(transportGraph instanceof GraphTransportDistance)
+                    ((GraphTransportDistance) transportGraph)
+                            .addEdge(segment, segment.getLength());
             }
 
-            transportGraph.print();
-
-        } catch (Exception e) {
+            } catch (Exception e) {
             e.printStackTrace();
+            }
         }
-    }
+
+        static void Task1(){}
+        static void Task2(){}
+        static void Task3(){}
+        static void Task4(){}
 }

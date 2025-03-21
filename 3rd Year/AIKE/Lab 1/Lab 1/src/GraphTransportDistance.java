@@ -1,7 +1,7 @@
 import java.util.*;
 import java.util.Map.Entry;
 
-public class GraphTransport {
+public class GraphTransportDistance implements Graph{
 	private Map<String, TreeMap<String, Double>> mGraph;
 	private List<Segment> edges;
 	private int mVertexCount;
@@ -37,20 +37,29 @@ public class GraphTransport {
 		return mEdgeCount;
 	}
 
-	public GraphTransport() {
+	public GraphTransportDistance() {
 		mGraph = new TreeMap<String, TreeMap<String, Double>>();
 		mVertexCount = 0;
 		mEdgeCount = 0;
 		edges = new ArrayList<>();
 	}
 
-	public GraphTransport(GraphTransport g) {
+	/**
+	 * Copy constructor of the graph
+	 * @param g The graph to copy
+	 */
+	public GraphTransportDistance(GraphTransportDistance g) {
 		mGraph = new TreeMap<String, TreeMap<String, Double>>(g.mGraph);
 		mVertexCount = g.mVertexCount;
 		mEdgeCount = g.mEdgeCount;
 		edges = g.edges;
 	}
 
+	/**
+	 * Adds a vertex to the graph
+	 * @param v The vertex to add
+	 * @return True if the vertex could be added, false otherwise
+	 */
 	public boolean addVertex(String v) {
 		if (hasVertex(v))
 			return false; // Can't repeat vertices
@@ -64,10 +73,21 @@ public class GraphTransport {
 		return true;
 	}
 
+	/**
+	 * Checks whether the graph has a certain vertex
+	 * @param v The vertex
+	 * @return True if vertex v is in the graph, false otherwise
+	 */
 	public boolean hasVertex(String v) {
 		return mGraph.containsKey(v);
 	}
 
+
+	/**
+	 * Removes a vertex from the graph
+	 * @param v The vertex to remove
+	 * @return True if the vertex could be removed, false otherwise
+	 */
 	public boolean removeVertex(String v) {
 		// Not in the graph
 		if (!mGraph.containsKey(v))
@@ -84,6 +104,11 @@ public class GraphTransport {
 		return true;
 	}
 
+	/**
+	 * Calculates the in degree of a vertex
+	 * @param v The vertex
+	 * @return The in-degree of vertex v
+	 */
 	public int InDegree(String v) {
 		if (!mGraph.containsKey(v))
 			return 0;
@@ -97,6 +122,11 @@ public class GraphTransport {
 		return counter;
 	}
 
+	/**
+	 * Calculates the out degree of a vertex
+	 * @param v The vertex
+	 * @return The out degree of vertex v.
+	 */
 	public int OutDegree(String v) {
 		if (!mGraph.containsKey(v))
 			return 0;
@@ -106,6 +136,11 @@ public class GraphTransport {
 		return adjList.size();
 	}
 
+	/**
+	 * Checks if the graph contains a certain edge
+	 * @param edge The edge to check
+	 * @return True if the graph has the edge, false otherwise
+	 */
 	public boolean hasEdge(Segment edge) {
 		/*
 		 * if (from.equals(to))
@@ -122,7 +157,12 @@ public class GraphTransport {
 		return (adjList.containsKey(to));
 	}
 
-	public boolean addEdge(Segment edge) {
+	/**
+	 * Adds an edge to the graph
+	 * @param edge Edge of type segment, containing all necessary information
+	 * @return True if the edge could be added, false otherwise
+	 */
+	public boolean addEdge(Segment edge, Double weight) {
 		if (hasEdge(edge))
 			return false;
 
@@ -133,7 +173,7 @@ public class GraphTransport {
 		addVertex(edge.getEndStop());
 
 		Map<String, Double> adjList = mGraph.get(edge.getStartStop());
-		adjList.put(edge.getEndStop(), edge.getLength());
+		adjList.put(edge.getEndStop(), weight);
 
 		return true;
 	}
@@ -157,7 +197,7 @@ public class GraphTransport {
 		 */
 
 		if (!hasEdge(edge))
-			return Double.POSITIVE_INFINITY;
+			return null;
 
 		Map<String, Double> adjList = mGraph.get(edge.getStartStop());
 		return adjList.get(edge.getEndStop());
