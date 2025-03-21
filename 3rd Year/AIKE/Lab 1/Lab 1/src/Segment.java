@@ -17,6 +17,7 @@ public class Segment {
 	private double endLon;
 
 	public Segment() {
+		this.ID = 0;
 		this.company = null;
 		this.line = null;
 		this.departureTime = null;
@@ -37,12 +38,7 @@ public class Segment {
 		this.company = company;
 		this.line = line;
 		this.departureTime = departureTime;
-		if (arrivalTime.before(departureTime))
-			this.arrivalTime = arrivalTime;
-		else {
-			this.arrivalTime = null;
-			System.out.printf("Could not add arrivalTime to segment #%d", this.ID);
-		}
+		this.arrivalTime = arrivalTime;
 		this.startStop = startStop;
 		this.endStop = endStop;
 		this.startLat = startLat;
