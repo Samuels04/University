@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Graph<T, U>{
-	private Map<T, TreeMap<T, U>> mGraph;
+	private Map<T, TreeMap<T, Pair<U>>> mGraph;
 	private int mVertexCount;
 	private int mEdgeCount;
 
@@ -30,14 +30,14 @@ public class Graph<T, U>{
 
 	public Graph()
 	{
-		mGraph = new TreeMap<T, TreeMap<T,U>> ();
+		mGraph = new TreeMap<T, TreeMap<T, Pair<U>>> ();
 		mVertexCount=0;
 		mEdgeCount=0;
 	}
 
 	public Graph(Graph<T, U> g)
 	{
-		mGraph = new TreeMap<T, TreeMap<T, U>> (g.mGraph);
+		mGraph = new TreeMap<T, TreeMap<T, Pair<U>>> (g.mGraph);
 		mVertexCount = g.mVertexCount;
 		mEdgeCount = g.mEdgeCount;
 	}
@@ -50,7 +50,7 @@ public class Graph<T, U>{
 		mVertexCount++;
 
 		//Empty adjacency list
-		TreeMap<T, U> aux = new TreeMap<T, U>();
+		TreeMap<T, Pair<U>> aux = new TreeMap<T, Pair<U>>();
 		mGraph.put(v, aux);  //Vertex added to the graph
 
 		return true;
@@ -68,7 +68,7 @@ public class Graph<T, U>{
 			return false;
 
 		//We have to remove first all the occurrences in the adjacency lists
-		for (Map<T, U> adjList : mGraph.values())
+		for (Map<T, Pair<U>> adjList : mGraph.values())
 			adjList.remove(v);
 
 		//We finally remove it from the graph
@@ -85,7 +85,7 @@ public class Graph<T, U>{
 
 		int counter = 0;
 		//Look for the vertex in all the adjacency lists
-		for (Map<T, U> adjList : mGraph.values())
+		for (Map<T, Pair<U>> adjList : mGraph.values())
 			if (adjList.containsKey(v))
 				counter++;
 
@@ -97,7 +97,7 @@ public class Graph<T, U>{
 		if (!mGraph.containsKey(v))
 			return 0;
 
-		Map<T, U> adjList = mGraph.get(v);
+		Map<T, Pair<U>> adjList = mGraph.get(v);
 
 		return adjList.size();
 	}
@@ -110,12 +110,12 @@ public class Graph<T, U>{
 		if (!mGraph.containsKey(from) || !mGraph.containsKey(to))
 			return false;
 
-		Map<T, U> adjList = mGraph.get(from);
+		Map<T, Pair<U>> adjList = mGraph.get(from);
 
 		return (adjList.containsKey(to));
 	}
 
-	public boolean addEdge(T from, T to, U weight)
+	public boolean addEdge(T from, T to, U weight, char line)
 	{
 		if (hasEdge(from,to))
 			return false;
@@ -125,8 +125,8 @@ public class Graph<T, U>{
 		addVertex(from);
 		addVertex(to);
 
-		Map<T, U> adjList = mGraph.get(from);
-		adjList.put(to, weight);
+		Map<T, Pair<U>> adjList = mGraph.get(from);
+		adjList.put(to, new Pair<U>(weight, line));
 
 		return true;
 	}
@@ -136,7 +136,7 @@ public class Graph<T, U>{
 		if (!hasEdge(from, to))
 			return false;
 
-		Map<T, U> adjList = mGraph.get(from);
+		Map<T, Pair<U>> adjList = mGraph.get(from);
 		adjList.remove(to);
 
 		mEdgeCount--;
@@ -152,8 +152,16 @@ public class Graph<T, U>{
 		if (!hasEdge(from, to))
 			return null;
 
-		Map<T, U> adjList = mGraph.get(from);
-		return adjList.get(to);
+		Map<T, Pair<U>> adjList = mGraph.get(from);
+		return adjList.get(to).getWeight();
+	}
+
+	public char edgeLine(T from, T to) {
+		if (!hasEdge(from, to))
+			return ' ';
+
+		Map<T, Pair<U>> adjList = mGraph.get(from);
+		return adjList.get(to).getLine();
 	}
 
 }
