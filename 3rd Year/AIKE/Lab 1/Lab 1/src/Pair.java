@@ -3,14 +3,14 @@ import org.jetbrains.annotations.NotNull;
 public class Pair<T>{
 
     private T weight;
-    private char line;
+    private String line;
 
     public Pair() {
         weight = null;
-        line = ' ';
+        line = "";
     }
 
-    public Pair(T weight, char line){
+    public Pair(T weight, String line){
         this.weight = weight;
         this.line = line;
     }
@@ -23,11 +23,11 @@ public class Pair<T>{
         this.weight = weight;
     }
 
-    public char getLine() {
+    public String getLine() {
         return line;
     }
 
-    public void setLine(char line) {
+    public void setLine(String line) {
         this.line = line;
     }
 }

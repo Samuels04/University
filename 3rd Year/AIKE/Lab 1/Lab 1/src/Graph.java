@@ -104,8 +104,8 @@ public class Graph<T, U>{
 
 	public boolean hasEdge(T from, T to)
 	{
-		/*if (from.equals(to))
-			 return true;*/
+		if (from.equals(to))
+			 return true;
 
 		if (!mGraph.containsKey(from) || !mGraph.containsKey(to))
 			return false;
@@ -115,7 +115,7 @@ public class Graph<T, U>{
 		return (adjList.containsKey(to));
 	}
 
-	public boolean addEdge(T from, T to, U weight, char line)
+	public boolean addEdge(T from, T to, U weight, String line)
 	{
 		if (hasEdge(from,to))
 			return false;
@@ -156,9 +156,9 @@ public class Graph<T, U>{
 		return adjList.get(to).getWeight();
 	}
 
-	public char edgeLine(T from, T to) {
-		if (!hasEdge(from, to))
-			return ' ';
+	public String edgeLine(T from, T to) {
+		if (!hasEdge(from, to) || from.equals(to))
+			return "";
 
 		Map<T, Pair<U>> adjList = mGraph.get(from);
 		return adjList.get(to).getLine();
