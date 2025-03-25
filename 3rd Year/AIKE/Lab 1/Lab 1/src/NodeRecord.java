@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Objects;
 
 public class NodeRecord implements Comparable<NodeRecord> {
@@ -5,9 +6,9 @@ public class NodeRecord implements Comparable<NodeRecord> {
     private long g;                // Accumulated cost from src to this node.
     private long f;                // Estimated total cost (g + heuristic).
     private NodeRecord parent;     // Predecessor in the optimal path.
-    private String currentLine;    // The line used to reach this node.
+    private List<String> currentLine;    // The line used to reach this node.
 
-    public NodeRecord(String node, long g, long f, NodeRecord parent, String currentLine) {
+    public NodeRecord(String node, long g, long f, NodeRecord parent, List<String> currentLine) {
         this.node = node;
         this.g = g;
         this.f = f;
@@ -65,11 +66,11 @@ public class NodeRecord implements Comparable<NodeRecord> {
         this.parent = parent;
     }
 
-    public String getCurrentLine() {
+    public List<String> getCurrentLine() {
         return currentLine;
     }
 
-    public void setCurrentLine(String currentLine) {
+    public void setCurrentLine(List<String> currentLine) {
         this.currentLine = currentLine;
     }
 }

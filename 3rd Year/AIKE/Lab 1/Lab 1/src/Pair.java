@@ -1,18 +1,20 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class Pair<T>{
 
     private T weight;
-    private String line;
+    private List<String> lines;
 
     public Pair() {
         weight = null;
-        line = "";
+        lines = null;
     }
 
-    public Pair(T weight, String line){
+    public Pair(T weight, List<String> lines){
         this.weight = weight;
-        this.line = line;
+        this.lines = lines;
     }
 
     public T getWeight() {
@@ -23,11 +25,19 @@ public class Pair<T>{
         this.weight = weight;
     }
 
-    public String getLine() {
-        return line;
+    public List<String> getLines() {
+        return lines;
     }
 
-    public void setLine(String line) {
-        this.line = line;
+    public void setLines(List<String> lines) {
+        this.lines = lines;
+    }
+
+    public void addLine(String line) {
+        this.lines.add(line);
+    }
+
+    public boolean hasLine(String line) {
+        return this.lines.contains(line);
     }
 }

@@ -117,8 +117,14 @@ public class Graph<T, U>{
 
 	public boolean addEdge(T from, T to, U weight, String line)
 	{
-		if (hasEdge(from,to))
-			return false;
+		if (hasEdge(from,to) && this.edgeLines(from, to) != null){
+			if(this.edgeLines(from, to).contains(line)) {
+				return false;
+			} else {
+				this.edgeLines(from, to).add(line);
+			}
+		}
+
 
 		mEdgeCount++;
 
@@ -126,7 +132,9 @@ public class Graph<T, U>{
 		addVertex(to);
 
 		Map<T, Pair<U>> adjList = mGraph.get(from);
-		adjList.put(to, new Pair<U>(weight, line));
+		List<String> lines = new ArrayList<>();
+		lines.add(line);
+		adjList.put(to, new Pair<U>(weight, lines));
 
 		return true;
 	}
@@ -156,12 +164,12 @@ public class Graph<T, U>{
 		return adjList.get(to).getWeight();
 	}
 
-	public String edgeLine(T from, T to) {
+	public List<String> edgeLines(T from, T to) {
 		if (!hasEdge(from, to) || from.equals(to))
-			return "";
+			return null;
 
 		Map<T, Pair<U>> adjList = mGraph.get(from);
-		return adjList.get(to).getLine();
+		return adjList.get(to).getLines();
 	}
 
 }

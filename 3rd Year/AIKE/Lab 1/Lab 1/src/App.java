@@ -1,11 +1,8 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAmount;
 import java.util.*;
 
 public class App {
@@ -40,7 +37,7 @@ public class App {
     static void Task1A(String src, String target, LocalTime startTime) throws IOException {
         final String file = "C:\\Users\\samue\\Code\\University\\3rd Year\\AIKE\\Lab 1\\Lab 1\\src\\connection_graph.csv";
         Graph<String, Long> graph = new Graph<>();
-        List<String> linesUsed = new ArrayList<>();
+        List<List<String>> linesUsed = new ArrayList<>();
         String source = src.toLowerCase();
         // Create an object of filereader
         // class with CSV file as a parameter.
@@ -128,11 +125,11 @@ public class App {
                 System.out.println("Reached a loop");
                 break;
             }
-            linesUsed.add(graph.edgeLine(current, mPredecessors.get(current)));
+            linesUsed.add(graph.edgeLines(current, mPredecessors.get(current)));
             current = mPredecessors.get(current);
         }
         path.add(source);
-        linesUsed.add(graph.edgeLine(current, source));
+        linesUsed.add(graph.edgeLines(current, source));
         Collections.reverse(path);
 
     /*
@@ -161,28 +158,24 @@ public class App {
         }
         return selected;
     }
-    static void printLines(List<String> lines) {
+    static void printLines(List<List<String>> lines) {
 
-        Iterator<String> itr= lines.iterator();
-        while(itr.hasNext()){
-            System.out.printf("%s ", itr.next());
+        Iterator<List<String>> itr1 = lines.iterator();
+        while(itr1.hasNext()){
+            List<String> line = itr1.next();
+            if (line != null) {
+                Iterator<String> itr = line.iterator();
+                while (itr.hasNext()) {
+                    System.out.printf("%s ", itr.next());
+                }
+            }
         }
         System.out.print("\n");
 
     }
-    static void Task1B(String src, String target, LocalTime startTime) throws IOException {
-
-    }
-    // Heuristic function: in our case, we opt for an optimistic estimate,
-    // assuming no additional transfers nor travel time, and hence return 0.
-    // (More sophisticated heuristics may be incorporated if such information is available.)
-    static long heuristic(String current, String goal) {
-        return 0;
-    }
-    static void Task1C(String src, String trgt, LocalTime startTime) throws IOException{
+    static void Task1B(String src, String trgt, LocalTime startTime) throws IOException {
         final String file = "C:\\Users\\samue\\Code\\University\\3rd Year\\AIKE\\Lab 1\\Lab 1\\src\\connection_graph.csv";
         Graph<String, Long> graph = new Graph<>();
-        List<String> linesUsed = new ArrayList<>();
         String source = src.toLowerCase();
         String target = trgt.toLowerCase();
         // Create an object of filereader
@@ -218,25 +211,18 @@ public class App {
             } else
                 continue;
         }
-        // Define the penalty in minutes for transferring between lines.
-        final long TRANSFER_PENALTY = 10;
-
-        // Local class to encapsulate node records in our search.
 
         PriorityQueue<NodeRecord> open = new PriorityQueue<>();
-
         Map<String, NodeRecord> allNodes = new HashMap<>();
         Set<String> closed = new HashSet<>();
 
         // Initialize the starting node record.
-        NodeRecord startRecord = new NodeRecord(source, 0, heuristic(source, target), null, null);
+        NodeRecord startRecord = new NodeRecord(source, 0, 0, null, null);
         open.add(startRecord);
         allNodes.put(source, startRecord);
-        long iterations = 1;
+
         // Main loop of the A* algorithm.
         while (!open.isEmpty()) {
-            iterations++;
-            System.out.println(iterations);
             NodeRecord current = open.poll();
 
             // If the target is reached, break out of the loop.
@@ -249,38 +235,26 @@ public class App {
 
             // Explore neighbours of the current node.
             for (String neighbor : graph.adjacentsTo(current.getNode())) {
-                // Retrieve travel time (in minutes) and line information for the edge.
+                // Retrieve travel time (in minutes) and the lines used.
                 Long travelTime = graph.edgeWeight(current.getNode(), neighbor);
+                List<String> linesUsed = graph.edgeLines(current.getNode(), neighbor);
                 if (travelTime == null) continue;
-                String edgeLine = graph.edgeLine(current.getNode(), neighbor);
-
-                // Determine if a transfer occurs (i.e. change of line).
-                long transferCost = 0;
-                if (current.getCurrentLine() != null && !current.getCurrentLine().equals(edgeLine)) {
-                    transferCost = TRANSFER_PENALTY;
-                }
 
                 // Calculate the tentative cost to reach the neighbour.
-                long tentativeG = current.getG() + travelTime + transferCost;
+                long tentativeG = current.getG() + travelTime;
 
                 NodeRecord neighborRecord = allNodes.get(neighbor);
                 if (neighborRecord == null) {
                     // Create a new record for an unvisited neighbour.
-                    neighborRecord = new NodeRecord(
-                            neighbor,
-                            tentativeG,
-                            tentativeG + heuristic(neighbor, target),
-                            current,
-                            edgeLine
-                    );
+                    neighborRecord = new NodeRecord(neighbor, tentativeG, tentativeG, current, linesUsed);
                     allNodes.put(neighbor, neighborRecord);
                     open.add(neighborRecord);
                 } else if (tentativeG < neighborRecord.getG()) {
                     // Update the record if a more efficient path is found.
                     neighborRecord.setG(tentativeG);
-                    neighborRecord.setF(tentativeG + heuristic(neighbor, target));
+                    neighborRecord.setF(tentativeG);
                     neighborRecord.setParent(current);
-                    neighborRecord.setCurrentLine(edgeLine);
+                    neighborRecord.setCurrentLine(linesUsed);
 
                     // Refresh the priority queue by removing and reinserting the updated record.
                     open.remove(neighborRecord);
@@ -294,34 +268,192 @@ public class App {
         if (targetRecord == null || !targetRecord.getNode().equals(target)) {
             // No path was found.
             System.out.println("No path was found from " + src + " to " + trgt + ".");
-            System.exit(1);
+            return;
         }
 
         LinkedList<String> path = new LinkedList<>();
+        LinkedList<List<String>> lines = new LinkedList<>();
         for (NodeRecord nodeRec = targetRecord; nodeRec != null; nodeRec = nodeRec.getParent()) {
             path.addFirst(nodeRec.getNode());
+            if (nodeRec.getParent() != null) {
+                lines.addFirst(graph.edgeLines(nodeRec.getParent().getNode(), nodeRec.getNode()));
+            }
         }
 
         // Print the required details.
         System.out.println("Start node: " + src);
-        System.out.println("End node: " + trgt);
+        System.out.println("End node: " + target);
         System.out.println("Path details:");
 
-        // For each consecutive pair in the path, print the line used.
+        // For each consecutive pair in the path, print the travel time and lines used.
         Iterator<String> it = path.iterator();
+        Iterator<List<String>> lineIt = lines.iterator();
         String from = it.next();
+        long totalTime = 0;
         while (it.hasNext()) {
             String to = it.next();
-            // Retrieve the line used for the edge from 'from' to 'to'
-            String lineUsed = graph.edgeLine(from, to);
-            System.out.println("From: " + from + " to: " + to + " via line: " + lineUsed);
+            List<String> lineList = lineIt.hasNext() ? lineIt.next() : Collections.singletonList("Unknown");
+            // Retrieve the travel time for the edge from 'from' to 'to'
+            Long travelTime = graph.edgeWeight(from, to);
+            System.out.println("From: " + from + " to: " + to + " via lines: " + String.join(", ", lineList) + " (Time: " + travelTime + " min)");
+            totalTime += (travelTime != null ? travelTime : 0);
             from = to;
         }
 
-        // Calculate arrival time by adding the total cost in minutes to the starting time.
-        LocalTime arrivalTime = startTime.plusMinutes(targetRecord.getG());
+        // Calculate arrival time by adding the total travel time to the starting time.
+        LocalTime arrivalTime = startTime.plusMinutes(totalTime);
+        System.out.println("Total travel time: " + totalTime + " min");
         System.out.println("Arrival time: " + arrivalTime);
+    }
+    // Heuristic function: in our case, we opt for an optimistic estimate,
+    // assuming no additional transfers nor travel time, and hence return 0.
+    // (More sophisticated heuristics may be incorporated if such information is available.)
+    static long heuristic(String current, String goal) {
+        return 0;
+    }
+    static void Task1C(String src, String trgt, LocalTime startTime) throws IOException{
+        final String file = "C:\\Users\\samue\\Code\\University\\3rd Year\\AIKE\\Lab 1\\Lab 1\\src\\connection_graph.csv";
+        Graph<String, Long> graph = new Graph<>();
+        String source = src.toLowerCase();
+        String target = trgt.toLowerCase();
+        // Create an object of filereader
+        // class with CSV file as a parameter.
+        FileReader filereader = new FileReader(file);
+        BufferedReader br = new BufferedReader(filereader);
+        String line;
+        br.readLine();
+        while ((line = br.readLine()) != null) {
+            //Get the next line in the CSV file
+            String[] currentRow = line.split(",");
 
+            //Extract all the fields in the line
+            int id = Integer.parseInt(currentRow[0]);
+            String company = currentRow[1];
+            String lineT = currentRow[2];
+            LocalTime departure = LocalTime.parse(currentRow[3]);
+            LocalTime arrival = LocalTime.parse(currentRow[4]);
+            String start = currentRow[5].toLowerCase();
+            String end = currentRow[6].toLowerCase();
+            double startLat = Double.parseDouble(currentRow[7]);
+            double startLon = Double.parseDouble(currentRow[8]);
+            double endLat = Double.parseDouble(currentRow[9]);
+            double endLon = Double.parseDouble(currentRow[10]);
+
+            if (departure.isAfter(startTime)) {
+                //Only add those segments that departure after the start time of the journey
+                graph.addVertex(start);
+                graph.addVertex(end);
+                //the weight of the edges will be the minutes in-between the stops
+                long minutes = Duration.between(departure, arrival).toMinutes();
+                graph.addEdge(start, end, minutes, lineT);
+            } else
+                continue;
+        }
+
+        PriorityQueue<NodeRecord> open = new PriorityQueue<>();
+        Map<String, NodeRecord> allNodes = new HashMap<>();
+        Set<String> closed = new HashSet<>();
+
+        // Initialize the starting node record.
+        NodeRecord startRecord = new NodeRecord(src, 0, 0, null, null);
+        open.add(startRecord);
+        allNodes.put(src, startRecord);
+
+        // Main loop of the A* algorithm.
+        while (!open.isEmpty()) {
+            NodeRecord current = open.poll();
+
+            // If the target is reached, break out of the loop.
+            if (current.getNode().equals(target)) {
+                allNodes.put(target, current);
+                break;
+            }
+
+            closed.add(current.getNode());
+
+            // Explore neighbours of the current node.
+            for (String neighbor : graph.adjacentsTo(current.getNode())) {
+                // Retrieve travel time (in minutes) and the lines used.
+                Long travelTime = graph.edgeWeight(current.getNode(), neighbor);
+                List<String> linesUsed = graph.edgeLines(current.getNode(), neighbor);
+                if (travelTime == null || linesUsed == null || linesUsed.isEmpty()) continue;
+
+                // Determine if a transfer occurs.
+                int transferPenalty = 0;
+                if (current.getCurrentLine() != null && Collections.disjoint(current.getCurrentLine(), linesUsed)) {
+                    transferPenalty = 1; // Count transfer if no shared line exists
+                }
+
+                // Calculate the tentative cost to reach the neighbour (minimizing transfers).
+                long tentativeG = current.getG() + transferPenalty;
+
+                NodeRecord neighborRecord = allNodes.get(neighbor);
+                if (neighborRecord == null) {
+                    // Create a new record for an unvisited neighbour.
+                    neighborRecord = new NodeRecord(neighbor, tentativeG, tentativeG, current, linesUsed);
+                    allNodes.put(neighbor, neighborRecord);
+                    open.add(neighborRecord);
+                } else if (tentativeG < neighborRecord.getG()) {
+                    // Update the record if a more efficient path is found.
+                    neighborRecord.setG(tentativeG);
+                    neighborRecord.setF(tentativeG);
+                    neighborRecord.setParent(current);
+                    neighborRecord.setCurrentLine(linesUsed);
+
+                    // Refresh the priority queue by removing and reinserting the updated record.
+                    open.remove(neighborRecord);
+                    open.add(neighborRecord);
+                }
+            }
+        }
+
+        // Reconstruct the path from src to target if it exists.
+        NodeRecord targetRecord = allNodes.get(target);
+        if (targetRecord == null || !targetRecord.getNode().equals(target)) {
+            // No path was found.
+            System.out.println("No path was found from " + src + " to " + target + ".");
+            return;
+        }
+
+        LinkedList<String> path = new LinkedList<>();
+        LinkedList<List<String>> lines = new LinkedList<>();
+        for (NodeRecord nodeRec = targetRecord; nodeRec != null; nodeRec = nodeRec.getParent()) {
+            path.addFirst(nodeRec.getNode());
+            if (nodeRec.getParent() != null) {
+                lines.addFirst(graph.edgeLines(nodeRec.getParent().getNode(), nodeRec.getNode()));
+            }
+        }
+
+        // Print the required details.
+        System.out.println("Start node: " + src);
+        System.out.println("End node: " + target);
+        System.out.println("Path details:");
+
+        // For each consecutive pair in the path, print the travel time and lines used.
+        Iterator<String> it = path.iterator();
+        Iterator<List<String>> lineIt = lines.iterator();
+        String from = it.next();
+        int totalTransfers = 0;
+        while (it.hasNext()) {
+            String to = it.next();
+            List<String> lineList = lineIt.hasNext() ? lineIt.next() : Collections.singletonList("Unknown");
+
+            // Determine if a transfer occurs.
+            if (!lineList.isEmpty() && it.hasNext()) {
+                List<String> nextLines = lineIt.hasNext() ? lineIt.next() : Collections.emptyList();
+                if (Collections.disjoint(lineList, nextLines)) {
+                    totalTransfers++;
+                }
+            }
+
+            // Retrieve the travel time for the edge from 'from' to 'to'
+            Long travelTime = graph.edgeWeight(from, to);
+            System.out.println("From: " + from + " to: " + to + " via lines: " + String.join(", ", lineList) + " (Time: " + travelTime + " min)");
+            from = to;
+        }
+
+        // Print total transfers.
+        System.out.println("Total transfers: " + totalTransfers);
     }
     static void Task1D(){}
 }
