@@ -1,8 +1,6 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-public class Pair<T>{
+public class Pair<T> {
 
     private T weight;
     private List<String> lines;
@@ -12,7 +10,7 @@ public class Pair<T>{
         lines = null;
     }
 
-    public Pair(T weight, List<String> lines){
+    public Pair(T weight, List<String> lines) {
         this.weight = weight;
         this.lines = lines;
     }
