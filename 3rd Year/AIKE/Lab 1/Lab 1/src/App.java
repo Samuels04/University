@@ -1,42 +1,45 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Duration;
+//import java.time.Duration;
 import java.time.LocalTime;
+//import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class App {
     final static int MAX_ITERATIONS = 500;
 
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         String start, end, task;
-        LocalTime startTime;
+        String startTime;
 
         System.out.print("What task would you like to execute? [1/2]: ");
         task = sc.next();
+        sc.nextLine();
 
         switch (task) {
             case "1":
 
                 System.out.print("Enter the optimization criterion [t/p]: ");
-                char optimizationCriterion = sc.next().charAt(0);
+                char optimizationCriterion = sc.nextLine().charAt(0);
 
                 switch (optimizationCriterion) {
                     case 't':
 
                         System.out.print("Enter the starting stop: ");
-                        start = sc.next();
+                        start = sc.nextLine();
 
                         System.out.print("Enter the ending stop: ");
-                        end = sc.next();
+                        end = sc.nextLine();
 
                         System.out.print("Enter the start time [hh:mm]: ");
-                        startTime = LocalTime.parse(sc.next());
+                        startTime = sc.nextLine();
 
                         System.out.print("Do you want to use Dijkstra's or A* [D/A]: ");
-                        char algorithm = sc.next().charAt(0);
+                        char algorithm = sc.nextLine().charAt(0);
 
                         switch (algorithm) {
                             case 'D':
@@ -55,7 +58,7 @@ public class App {
                         end = sc.nextLine();
 
                         System.out.print("Enter the start time [hh:mm]: ");
-                        startTime = LocalTime.parse(sc.next());
+                        startTime = sc.nextLine();
 
                         Task1C(start, end, startTime);
                         break;
@@ -66,7 +69,7 @@ public class App {
                 char part = sc.next().charAt(0);
 
                 start = "Babimojska";
-                startTime = LocalTime.parse("19:00");
+                startTime = "19:00";
                 List<String> stopsToVisit = Arrays.asList("park biznesu", "wrocławski park przemysłowy");
 
                 switch (part) {
@@ -92,10 +95,10 @@ public class App {
 
     }
 
-    static Graph<String, Long> readFileToGraph(LocalTime departureTime) throws IOException {
+    static Graph<String> readFileToGraph(String departureTime) throws IOException {
         final String file = "C:\\Users\\samue\\Code\\University\\3rd Year\\AIKE\\Lab 1\\Lab 1\\src\\connection_graph.csv";
 
-        Graph<String, Long> graph = new Graph<>();
+        Graph<String> graph = new Graph<>();
         // Create an object of filereader
         // class with CSV file as a parameter.
         FileReader filereader = new FileReader(file);
@@ -107,44 +110,41 @@ public class App {
             String[] currentRow = line.split(",");
 
             // Extract all the fields in the line
-            int id = Integer.parseInt(currentRow[0]);
-            String company = currentRow[1];
             String lineT = currentRow[2];
-            LocalTime departure = LocalTime.parse(currentRow[3]);
-            LocalTime arrival = LocalTime.parse(currentRow[4]);
+            String departure = currentRow[3];
+            String arrival = currentRow[4];
             String start = currentRow[5].toLowerCase();
             String end = currentRow[6].toLowerCase();
-            double startLat = Double.parseDouble(currentRow[7]);
-            double startLon = Double.parseDouble(currentRow[8]);
-            double endLat = Double.parseDouble(currentRow[9]);
-            double endLon = Double.parseDouble(currentRow[10]);
 
-            if (departure.isAfter(departureTime)) {
+            if (isAfter(departure, departureTime)) {
                 // Only add those segments that departure after the start time of the journey
                 graph.addVertex(start);
                 graph.addVertex(end);
                 // the weight of the edges will be the minutes in-between the stops
-                long minutes = Duration.between(departure, arrival).toMinutes();
-                graph.addEdge(start, end, minutes, lineT);
-            } else
-                continue;
+                try {
+                    graph.addEdge(start, end, lineT, departure, arrival);
+                } catch(IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return graph;
     }
 
     // #region Task 1
-    static void Task1A(String src, String target, LocalTime startTime) throws IOException {
+    static void Task1A(String src, String trgt, String startTime) throws IOException {
 
-        Graph<String, Long> graph = readFileToGraph(startTime);
+        Graph<String> graph = readFileToGraph(startTime);
         List<List<String>> linesUsed = new ArrayList<>();
         String source = src.toLowerCase();
+        String target = trgt.toLowerCase();
         // Create all necessary structures for the algorithm
-        Map<String, Long> mDistances = new TreeMap<String, Long>(); // Distances from start vertex to another one
-        Map<String, String> mPredecessors = new TreeMap<String, String>();
-        Set<String> visited = new HashSet<String>(graph.getVertexCount() * 2); // Twice the number of vertices to reduce
+        Map<String, Long> mDistances = new TreeMap<>(); // Distances from start vertex to another one
+        Map<String, String> mPredecessors = new TreeMap<>();
+        Set<String> visited = new HashSet<>(graph.getVertexCount() * 2); // Twice the number of vertices to reduce
                                                                                // the number of collisions and increase
                                                                                // the efficiency
-        Set<String> unvisited = new HashSet<String>(graph.getAllVertices());
+        Set<String> unvisited = new HashSet<>(graph.getAllVertices());
 
         for (String v : unvisited) {
             if (source.equals(v))
@@ -186,8 +186,10 @@ public class App {
         List<String> path = new ArrayList<>();
         String current = target.toLowerCase();
         while (current != null && !current.equals(source)) {
-            if (!path.contains(current))
+            if (!path.contains(current)) {
                 path.add(current);
+                System.out.println(current);
+            }
             else {
                 System.out.println("Reached a loop");
                 break;
@@ -198,16 +200,33 @@ public class App {
         path.add(source);
         linesUsed.add(graph.edgeLines(current, source));
         Collections.reverse(path);
+        // Initialize travel time tracking
+        String currentTime = startTime;
+        long totalTravelTime = 0;
 
-        /*
-         * I must now print the output of this algorithm
-         */
+        System.out.println("\nDetailed journey information:");
+        System.out.println("------------------------------------------------------");
+        System.out.printf("Departure: %s from %s\n", startTime, source);
 
-        System.out.printf("The path starts in: %s\n", source);
-        System.out.printf("The path ends in: %s\n", target);
-        System.out.print("The path uses this lines: ");
-        printLines(linesUsed);
-        System.out.printf("The path began at: %s", startTime.toString());
+// Iterate over the path to determine departure and arrival times at each stop
+        for (int i = 0; i < path.size() - 1; i++) {
+            String from = path.get(i);
+            String to = path.get(i + 1);
+            long travelTime = graph.edgeWeight(from, to);
+            List<String> lines = graph.edgeLines(from, to);
+
+            String arrival = addMinutes(currentTime, travelTime);
+            System.out.printf("From: %s | Depart: %s  -->  To: %s | Arrive: %s  (Duration: %d min) With lines: %s\n",
+                    from, currentTime, to, arrival, travelTime, lines.toString());
+            currentTime = arrival;
+            totalTravelTime += travelTime;
+        }
+
+// Final arrival information
+        System.out.printf("Arrival: %s at %s\n", currentTime, target);
+        System.out.println("------------------------------------------------------");
+        System.out.printf("Total journey time: %d minutes\n", totalTravelTime);
+
 
     }
 
@@ -228,24 +247,8 @@ public class App {
         return selected;
     }
 
-    static void printLines(List<List<String>> lines) {
-
-        Iterator<List<String>> itr1 = lines.iterator();
-        while (itr1.hasNext()) {
-            List<String> line = itr1.next();
-            if (line != null) {
-                Iterator<String> itr = line.iterator();
-                while (itr.hasNext()) {
-                    System.out.printf("%s ", itr.next());
-                }
-            }
-        }
-        System.out.print("\n");
-
-    }
-
-    static void Task1B(String src, String trgt, LocalTime startTime) throws IOException {
-        Graph<String, Long> graph = readFileToGraph(startTime);
+    static void Task1B(String src, String trgt, String startTime) throws IOException {
+        Graph<String> graph = readFileToGraph(startTime);
         String source = src.toLowerCase();
         String target = trgt.toLowerCase();
 
@@ -276,10 +279,8 @@ public class App {
             // Explore neighbours of the current node.
             for (String neighbor : graph.adjacentsTo(current.getNode())) {
                 // Retrieve travel time (in minutes) and the lines used.
-                Long travelTime = graph.edgeWeight(current.getNode(), neighbor);
+                long travelTime = graph.edgeWeight(current.getNode(), neighbor);
                 List<String> linesUsed = graph.edgeLines(current.getNode(), neighbor);
-                if (travelTime == null)
-                    continue;
 
                 // Calculate the tentative cost to reach the neighbour.
                 long tentativeG = current.getG() + travelTime;
@@ -317,6 +318,9 @@ public class App {
         LinkedList<String> path = new LinkedList<>();
         LinkedList<List<String>> lines = new LinkedList<>();
         for (NodeRecord nodeRec = targetRecord; nodeRec != null; nodeRec = nodeRec.getParent()) {
+            System.out.println(nodeRec.getNode());
+            if(path.contains(nodeRec.getNode()))
+                System.err.print("Reached a loop");
             path.addFirst(nodeRec.getNode());
             if (nodeRec.getParent() != null) {
                 lines.addFirst(graph.edgeLines(nodeRec.getParent().getNode(), nodeRec.getNode()));
@@ -337,15 +341,15 @@ public class App {
             String to = it.next();
             List<String> lineList = lineIt.hasNext() ? lineIt.next() : Collections.singletonList("Unknown");
             // Retrieve the travel time for the edge from 'from' to 'to'
-            Long travelTime = graph.edgeWeight(from, to);
+            long travelTime = graph.edgeWeight(from, to);
             System.out.println("From: " + from + " to: " + to + " via lines: " + String.join(", ", lineList)
                     + " (Time: " + travelTime + " min)");
-            totalTime += (travelTime != null ? travelTime : 0);
+            totalTime += (travelTime);
             from = to;
         }
 
         // Calculate arrival time by adding the total travel time to the starting time.
-        LocalTime arrivalTime = startTime.plusMinutes(totalTime);
+        String arrivalTime = addMinutes(startTime, totalTime);
         System.out.println("Total travel time: " + totalTime + " min");
         System.out.println("Arrival time: " + arrivalTime);
         System.err.println("Pathfinding execution time: " + executionTimeMillis + " ms");
@@ -361,8 +365,8 @@ public class App {
         return 0;
     }
 
-    static void Task1C(String src, String trgt, LocalTime startTime) throws IOException {
-        Graph<String, Long> graph = readFileToGraph(startTime);
+    static void Task1C(String src, String trgt, String startTime) throws IOException {
+        Graph<String> graph = readFileToGraph(startTime);
         String source = src.toLowerCase();
         String target = trgt.toLowerCase();
 
@@ -391,10 +395,10 @@ public class App {
             for (String neighbor : graph.adjacentsTo(current.getNode())) {
 
                 // Retrieve travel time (in minutes) and the lines used.
-                Long travelTime = graph.edgeWeight(current.getNode(), neighbor);
+                long travelTime = graph.edgeWeight(current.getNode(), neighbor);
 
                 List<String> linesUsed = graph.edgeLines(current.getNode(), neighbor);
-                if (travelTime == null || linesUsed == null || linesUsed.isEmpty())
+                if (linesUsed == null || linesUsed.isEmpty())
                     continue;
 
                 // Determine if a transfer occurs.
@@ -468,7 +472,7 @@ public class App {
             }
 
             // Retrieve the travel time for the edge from 'from' to 'to'
-            Long travelTime = graph.edgeWeight(from, to);
+            long travelTime = graph.edgeWeight(from, to);
             System.out.println("From: " + from + " to: " + to + " via lines: " + String.join(", ", lineList)
                     + " (Time: " + travelTime + " min)");
             from = to;
@@ -479,10 +483,10 @@ public class App {
     }
     // #endregion
 
-    static void Task2A(String src, LocalTime departureTime, List<String> mustVisit) throws IOException {
+    static void Task2A(String src, String departureTime, List<String> mustVisit) throws IOException {
 
         // * Define the variables
-        Graph<String, Long> graph = readFileToGraph(departureTime);
+        Graph<String> graph = readFileToGraph(departureTime);
         String source = src.toLowerCase();
 
         // ! Record the start time for performance measurement.
@@ -498,7 +502,7 @@ public class App {
         // Initialize both solutions with the source stop.
         currentSolution.addLast(source);
         bestSolution.addLast(source);
-        Long bestCost = Long.MAX_VALUE;
+        long bestCost = Long.MAX_VALUE;
 
         // - Main search loop, iterating up to MAX_ITERATIONS times.
         for (int i = 0; i < MAX_ITERATIONS; i++) {
@@ -515,12 +519,10 @@ public class App {
                             return true;
                         if (mustVisit.contains(n))
                             return true;
-                        if (n.equals(source) && currentSolution.containsAll(mustVisit))
-                            return true;
-                        return false;
+                        return n.equals(source) && currentSolution.containsAll(mustVisit);
                     })
                     .sorted(Comparator.comparingLong(n -> graph.edgeWeight(currentStop, n)))
-                    .collect(Collectors.toList());
+                    .toList();
 
             String bestNeighbour = null;
             Long bestTotalCost = null;
@@ -567,29 +569,32 @@ public class App {
 
             // Check if the current solution visits all required stops and returns to the
             // source.
-            if (currentSolution.containsAll(mustVisit) && currentSolution.peekLast().equals(source)) {
+            if (currentSolution.containsAll(mustVisit)) {
+                assert currentSolution.peekLast() != null;
+                if (currentSolution.peekLast().equals(source)) {
 
-                long totalCost = 0;
+                    long totalCost = 0;
 
-                Iterator<String> it = currentSolution.iterator();
+                    Iterator<String> it = currentSolution.iterator();
 
-                if (it.hasNext()) {
+                    if (it.hasNext()) {
 
-                    String prev = it.next();
+                        String prev = it.next();
 
-                    while (it.hasNext()) {
+                        while (it.hasNext()) {
 
-                        String curr = it.next();
-                        totalCost += graph.edgeWeight(prev, curr);
-                        prev = curr;
+                            String curr = it.next();
+                            totalCost += graph.edgeWeight(prev, curr);
+                            prev = curr;
+
+                        }
 
                     }
-
-                }
-                // Update bestSolution if this complete tour is better.
-                if (totalCost < bestCost) {
-                    bestCost = totalCost;
-                    bestSolution = new ArrayDeque<>(currentSolution);
+                    // Update bestSolution if this complete tour is better.
+                    if (totalCost < bestCost) {
+                        bestCost = totalCost;
+                        bestSolution = new ArrayDeque<>(currentSolution);
+                    }
                 }
             }
         }
@@ -600,7 +605,7 @@ public class App {
 
         // - Print the detailed path information.
         long totalTravelTime = 0;
-        LocalTime currentTime = departureTime;
+        String currentTime = departureTime;
         List<String> bestSolutionList = new ArrayList<>(bestSolution);
 
         for (int i = 0; i < bestSolutionList.size() - 1; i++) {
@@ -611,20 +616,20 @@ public class App {
             long travelTime = graph.edgeWeight(from, to);
             totalTravelTime += travelTime;
 
-            LocalTime arrivalTime = currentTime.plusMinutes(travelTime);
+            String arrivalTime = addMinutes(currentTime, travelTime);
             List<String> lines = graph.edgeLines(from, to);
 
             if (lines != null) {
 
                 System.out.printf("From: %s to: %s via lines: %s (Start: %s, End: %s)\n", from, to,
-                        String.join(", ", lines), currentTime.toString(), arrivalTime.toString());
+                        String.join(", ", lines), currentTime, arrivalTime);
 
             }
             currentTime = arrivalTime;
 
         }
 
-        LocalTime finalArrivalTime = departureTime.plusMinutes(totalTravelTime);
+        String finalArrivalTime = addMinutes(departureTime, totalTravelTime);
 
         System.out.printf("Search completed. Source: %s, Arrival time: %s", source, finalArrivalTime);
         System.err.printf("Minimized travel time: %d", bestCost);
@@ -644,5 +649,61 @@ public class App {
     static void Task2D() {
         System.out.print(
                 "I am really, really sorry, but I did not have time to do this because part A was giving me so much trouble");
+    }
+
+    public static boolean isAfter(String time1, String time2) {
+        // Normalizar ambos tiempos
+        Pair.NormalizedTime normalizedTime1 = normalizeTimeString(time1);
+        Pair.NormalizedTime normalizedTime2 = normalizeTimeString(time2);
+
+        // Obtener los tiempos ajustados
+        LocalTime time1Adjusted = normalizedTime1.isNextDay() ? normalizedTime1.getTime().plusHours(24) : normalizedTime1.getTime();
+        LocalTime time2Adjusted = normalizedTime2.isNextDay() ? normalizedTime2.getTime().plusHours(24) : normalizedTime2.getTime();
+
+        // Comparar los tiempos
+        return time1Adjusted.isAfter(time2Adjusted);
+    }
+
+    public static String addMinutes(String startTime, long minutes) {
+        // Normalizar el tiempo inicial
+        Pair.NormalizedTime normalized = normalizeTimeString(startTime);
+
+        // Ajustar conceptualmente si pertenece al día siguiente
+        LocalTime adjustedTime = normalized.isNextDay() ? normalized.getTime().plusHours(24) : normalized.getTime();
+
+        // Sumar los minutos al tiempo ajustado
+        LocalTime resultTime = adjustedTime.plusMinutes(minutes);
+
+        // Si el resultado pertenece al día siguiente, ajustar las horas
+        if (resultTime.getHour() >= 24) {
+            resultTime = resultTime.minusHours(24);
+        }
+
+        // Devolver el resultado como una cadena en formato "hh:mm:ss"
+        return String.format("%02d:%02d:%02d", resultTime.getHour(), resultTime.getMinute(), resultTime.getSecond());
+    }
+
+    /**
+     * Normaliza una cadena de tiempo que puede estar fuera del rango válido.
+     */
+    private static Pair.NormalizedTime normalizeTimeString(String timeString) {
+        // Dividir el tiempo en horas, minutos y segundos
+        String[] parts = timeString.split(":");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        //int seconds = Integer.parseInt(parts[2]);
+
+        // Determinar si el tiempo pertenece al día siguiente
+        boolean isNextDay = hours >= 24;
+
+        // Ajustar las horas al rango válido (0-23)
+        if (isNextDay) {
+            hours -= 24;
+        }
+
+        // Crear un objeto LocalTime con el tiempo ajustado
+        LocalTime normalizedTime = LocalTime.of(hours, minutes);
+
+        return new Pair.NormalizedTime(normalizedTime, isNextDay);
     }
 }
