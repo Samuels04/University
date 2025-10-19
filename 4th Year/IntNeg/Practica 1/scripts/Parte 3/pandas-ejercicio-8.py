@@ -32,7 +32,6 @@ Y = Y.values.ravel()
 
 #Los tres modelos que he elegido han sido (en alarde de originalidad) los indicados en el ejercicio:
 #Regresión Lineal, SVR y Random Forest
-"""
 #Regresión Lineal
 regressor = LinearRegression()
 regressor.fit(X, Y)
@@ -45,14 +44,13 @@ regressor = SVR(kernel='rbf', C=1e1, epsilon=1)
 regressor.fit(X,Y)
 
 score = math.sqrt(-cross_val_score(regressor, X, Y, scoring='neg_mean_squared_error',cv=10).mean())
-#print("SVR R^2: %.3f" % score)
+print("SVR R^2: %.3f" % score)
 
 #Random Forest
 regressor = RandomForestRegressor()
 regressor.fit(X,Y)
 score = math.sqrt(-cross_val_score(regressor, X, Y, scoring='neg_mean_squared_error', cv=10).mean())
-#print("RandomForest %.3f" % score)
-"""
+print("RandomForest %.3f" % score)
 
 """ TODO En el informe he de tener en cuenta más estadísticos y justificar por qué estos datos
 	son una mierda. También qué modelos utilizar que den mejores resultados
